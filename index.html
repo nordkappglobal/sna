@@ -12,8 +12,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/styles.css?v=20260828b">
-  <script src="/app.js?v=20260828b" defer></script>
+  <link rel="stylesheet" href="/styles.css?v=20260828c">
+  <script src="/app.js?v=20260828c" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#main" data-i18n="skip">Bỏ qua đến nội dung chính</a>
@@ -27,11 +27,15 @@
   <header class="site-header" id="top">
     <div class="brand-row shell" aria-label="Đơn vị phối hợp">
       <div class="brand-lockup">
-        <img class="logo logo-nvh" src="/assets/logos/nvh.png" alt="Nhà Văn hóa Thanh Thiếu nhi Thành phố Đồng Nai">
-        <span class="brand-plus" aria-hidden="true">×</span>
-        <span class="sna-logo-frame"><img class="logo logo-sna" src="/assets/logos/sna.jpeg" alt="SNA Marianapolis International School - Bien Hoa Campus"></span>
-        <span class="brand-plus" aria-hidden="true">×</span>
-        <img class="logo logo-hve" src="/assets/logos/hve.png" alt="Huy Võ Education">
+        <img class="logo logo-sna-main" src="/assets/logos/sna-official.png" alt="SNA Marianapolis International School - Bien Hoa Campus">
+      </div>
+      <div class="partner-lockup">
+        <span data-i18n="partnerLabel">Phối hợp triển khai</span>
+        <div class="partner-logos">
+          <img class="logo logo-nvh" src="/assets/logos/nvh.png" alt="Nhà Văn hóa Thanh Thiếu nhi Thành phố Đồng Nai">
+          <span aria-hidden="true">+</span>
+          <img class="logo logo-hve" src="/assets/logos/hve.png" alt="Huy Võ Education">
+        </div>
       </div>
       <div class="header-tools">
         <div class="language-switch" aria-label="Chọn ngôn ngữ">
@@ -77,8 +81,39 @@
             <div><strong>10%</strong><span data-i18n="trustSaving">tiết kiệm trọn khóa</span></div>
           </div>
         </div>
+        <aside class="hero-proof-card" aria-label="Ưu tiên của chương trình">
+          <span data-i18n="proofKicker">ĐIỀU PHỤ HUYNH QUAN TÂM</span>
+          <h2 data-i18n="proofTitle">Một môi trường sau giờ học đáng tin cậy</h2>
+          <ul>
+            <li><i aria-hidden="true">01</i><span data-i18n="proof1">An toàn trong từng điểm chạm</span></li>
+            <li><i aria-hidden="true">02</i><span data-i18n="proof2">Lộ trình phù hợp với sở thích của con</span></li>
+            <li><i aria-hidden="true">03</i><span data-i18n="proof3">Học phí và thông tin minh bạch</span></li>
+          </ul>
+          <small data-i18n="proofDemo">Nội dung định hướng — chờ quy trình chính thức phê duyệt</small>
+        </aside>
       </div>
       <div class="hero-caption"><span data-i18n="imageDemo">Hình ảnh minh họa demo — sẽ thay bằng ảnh được SNA phê duyệt</span></div>
+    </section>
+
+    <section class="parent-insight section" id="why-after-school">
+      <div class="shell insight-grid">
+        <div class="insight-collage" aria-label="Hình ảnh hoạt động minh họa">
+          <figure class="insight-image insight-image-main"><img src="/assets/courses/basketball.jpg" alt="Hoạt động bóng rổ minh họa" loading="lazy"><figcaption data-i18n="imageDemoShort">Ảnh demo</figcaption></figure>
+          <figure class="insight-image insight-image-small"><img src="/assets/courses/dance.jpg" alt="Hoạt động nghệ thuật minh họa" loading="lazy"><figcaption data-i18n="imageDemoShort">Ảnh demo</figcaption></figure>
+          <div class="insight-seal"><strong>3</strong><span data-i18n="insightSeal">trụ cột phát triển</span></div>
+        </div>
+        <div class="insight-copy">
+          <span class="kicker" data-i18n="insightKicker">Insight phụ huynh</span>
+          <h2 data-i18n="insightTitle">Sau giờ học không chỉ là khoảng thời gian cần lấp đầy</h2>
+          <p class="insight-lead" data-i18n="insightLead">Đó là lúc con được rời màn hình, vận động đúng cách, khám phá điều mình thực sự giỏi và mang sự tự tin trở về nhà.</p>
+          <div class="insight-pillars">
+            <article><span>01</span><div><h3 data-i18n="pillar1Title">Khỏe hơn</h3><p data-i18n="pillar1Text">Thói quen vận động và sức bền tích cực.</p></div></article>
+            <article><span>02</span><div><h3 data-i18n="pillar2Title">Tự tin hơn</h3><p data-i18n="pillar2Text">Dám thể hiện, hợp tác và bước ra khỏi vùng quen thuộc.</p></div></article>
+            <article><span>03</span><div><h3 data-i18n="pillar3Title">Trưởng thành hơn</h3><p data-i18n="pillar3Text">Kỷ luật, bản lĩnh và niềm vui khi tiến bộ mỗi tuần.</p></div></article>
+          </div>
+          <a class="text-link" href="#activities"><span data-i18n="insightCta">Tìm hành trình phù hợp cho con</span><b aria-hidden="true">→</b></a>
+        </div>
+      </div>
     </section>
 
     <section class="benefits section">
@@ -209,7 +244,7 @@
 
   <footer class="site-footer">
     <div class="shell footer-grid">
-      <div class="footer-brand"><div class="footer-logos"><img src="/assets/logos/nvh.png" alt="NVH"><img src="/assets/logos/hve.png" alt="HVE"></div><strong>SNA AFTER SCHOOL</strong><p data-i18n="footerDemo">Bản demo phục vụ duyệt định hướng. Vai trò pháp lý và thứ tự logo đang chờ xác nhận.</p></div>
+      <div class="footer-brand"><div class="footer-logos"><img src="/assets/logos/sna-footer.webp" alt="SNA Marianapolis"><img src="/assets/logos/nvh.png" alt="NVH"><img src="/assets/logos/hve.png" alt="HVE"></div><strong>SNA AFTER SCHOOL</strong><p data-i18n="footerDemo">Bản demo phục vụ duyệt định hướng. Vai trò pháp lý và thứ tự logo đang chờ xác nhận.</p></div>
       <div><h3 data-i18n="footerNav">Điều hướng</h3><a href="#activities" data-i18n="navActivities">Môn học</a><a href="#fees" data-i18n="navFees">Học phí</a><a href="#register" data-i18n="navRegister">Đăng ký tư vấn</a></div>
       <div><h3 data-i18n="footerContact">Liên hệ mẫu</h3><span>0900 000 000</span><span>demo@sna-afterschool.example</span><small data-i18n="notOfficial">Không phải thông tin chính thức</small></div>
     </div>

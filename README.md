@@ -2,6 +2,8 @@
 
 Static bilingual landing-page demo prepared from the SNA After School brief.
 
+The primary transparent SNA lockup and footer mark are sourced from the official SNA Marianapolis website (`snamarianapolis.edu.vn`). The earlier JPEG conversion is not used because it replaced the original alpha channel with a black background.
+
 ## Demo behavior
 
 - All schedules, age ranges, staff profiles and contact details are visibly marked as sample content.

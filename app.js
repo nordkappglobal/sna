@@ -1,11 +1,15 @@
+document.documentElement.classList.add("js");
+
 const content = {
   vi: {
-    skip: "Bỏ qua đến nội dung chính", demoBadge: "BẢN DEMO NỘI BỘ", demoNote: "Dữ liệu, lịch, nhân sự và liên hệ đang dùng mẫu để duyệt thiết kế.", openMenu: "Mở menu",
+    skip: "Bỏ qua đến nội dung chính", demoBadge: "BẢN DEMO NỘI BỘ", demoNote: "Dữ liệu, lịch, nhân sự và liên hệ đang dùng mẫu để duyệt thiết kế.", openMenu: "Mở menu", partnerLabel: "Phối hợp triển khai",
     navProgram: "Chương trình", navActivities: "Môn học", navFees: "Học phí", navInstructors: "Giảng viên", navFaq: "Câu hỏi thường gặp", navRegister: "Đăng ký tư vấn",
     heroEyebrow: "SNA AFTER SCHOOL PROGRAM · DEMO 2026", heroTitle: "Khơi mở năng khiếu.<br>Rèn luyện bản lĩnh.<br><span>Phát triển toàn diện.</span>", heroDescription: "Chương trình thể thao, võ thuật và nghệ thuật dành cho học sinh, dự kiến tổ chức tại SNA với đội ngũ chuyên môn của Huy Võ Education.",
-    primaryCta: "Đăng ký nhận tư vấn", secondaryCta: "Khám phá 8 môn học", trustActivities: "bộ môn đa dạng", trustGroups: "nhóm phát triển", trustSaving: "tiết kiệm trọn khóa", imageDemo: "Hình ảnh minh họa demo — sẽ thay bằng ảnh được SNA phê duyệt",
+    primaryCta: "Đăng ký nhận tư vấn", secondaryCta: "Khám phá 8 môn học", trustActivities: "bộ môn đa dạng", trustGroups: "nhóm phát triển", trustSaving: "tiết kiệm trọn khóa", imageDemo: "Hình ảnh minh họa demo — sẽ thay bằng ảnh được SNA phê duyệt", imageDemoShort: "Ảnh demo",
+    proofKicker: "ĐIỀU PHỤ HUYNH QUAN TÂM", proofTitle: "Một môi trường sau giờ học đáng tin cậy", proof1: "An toàn trong từng điểm chạm", proof2: "Lộ trình phù hợp với sở thích của con", proof3: "Học phí và thông tin minh bạch", proofDemo: "Nội dung định hướng — chờ quy trình chính thức phê duyệt",
     benefitKicker: "Mỗi buổi chiều là một cơ hội mới", benefitTitle: "Nơi sở thích trở thành kỹ năng bền vững",
     benefit1Title: "Đa dạng lựa chọn", benefit1Text: "Tám bộ môn thuộc thể thao, võ thuật và nghệ thuật — biểu diễn.", benefit2Title: "Đội ngũ chuyên môn", benefit2Text: "Hồ sơ giảng viên và huấn luyện viên được chọn theo từng bộ môn.", benefit3Title: "Thuận tiện đăng ký", benefit3Text: "Phụ huynh có thể chọn nhiều môn và khung giờ phù hợp.", benefit4Title: "Học phí minh bạch", benefit4Text: "Công khai giá theo buổi và mức tiết kiệm theo thời gian đăng ký.",
+    insightSeal: "trụ cột phát triển", insightKicker: "Insight phụ huynh", insightTitle: "Sau giờ học không chỉ là khoảng thời gian cần lấp đầy", insightLead: "Đó là lúc con được rời màn hình, vận động đúng cách, khám phá điều mình thực sự giỏi và mang sự tự tin trở về nhà.", pillar1Title: "Khỏe hơn", pillar1Text: "Thói quen vận động và sức bền tích cực.", pillar2Title: "Tự tin hơn", pillar2Text: "Dám thể hiện, hợp tác và bước ra khỏi vùng quen thuộc.", pillar3Title: "Trưởng thành hơn", pillar3Text: "Kỷ luật, bản lĩnh và niềm vui khi tiến bộ mỗi tuần.", insightCta: "Tìm hành trình phù hợp cho con",
     activitiesKicker: "Khám phá chương trình", activitiesTitle: "8 bộ môn — 3 hướng phát triển", activitiesIntro: "Chọn môn phù hợp với sở thích của con. Lịch học và độ tuổi bên dưới là dữ liệu mẫu phục vụ duyệt demo.", filterAll: "Tất cả", filterSports: "Thể thao", filterMartial: "Võ thuật", filterArts: "Nghệ thuật — biểu diễn",
     feesKicker: "Học phí dự kiến theo brief", feesTitle: "Đăng ký dài hạn — tiết kiệm nhiều hơn", feesIntro: "Giá theo học sinh mỗi buổi. Tổng học phí chính thức sẽ được tính theo lịch và số buổi đã xác nhận.", paySession: "Theo buổi", paySessionText: "Học phí niêm yết", paySession1: "Linh hoạt trải nghiệm", paySession2: "Không áp dụng giảm giá", payMonthly: "Theo tháng", payMonthlyText: "95% × giá/buổi × số buổi", payMonthly1: "Dễ chủ động kế hoạch", payMonthly2: "Tiết kiệm đều mỗi tháng", payCourse: "Trọn khóa", payCourseText: "90% × giá/buổi × tổng số buổi", payCourse1: "Mức tiết kiệm tốt nhất", payCourse2: "Duy trì lịch học ổn định", recommended: "Được đề xuất", feeCaption: "Bảng quy đổi mẫu theo mức học phí trong brief", feeBase: "Giá niêm yết", feeMonth: "Theo tháng −5%", feeCourse: "Trọn khóa −10%",
     instructorKicker: "Đội ngũ đồng hành", instructorTitle: "Chuyên môn đúng môn — truyền cảm hứng đúng cách", instructorIntro: "Khu vực này đang dùng hồ sơ mẫu. Danh sách, ảnh và thành tích sẽ chỉ xuất bản sau khi HVE và SNA xác nhận.", profileDemo: "Hồ sơ demo", coach1: "Huấn luyện viên mẫu 01", coach1Role: "Thể thao · Chờ phân công chính thức", coach2: "Huấn luyện viên mẫu 02", coach2Role: "Võ thuật · Chờ phân công chính thức", coach3: "Giảng viên mẫu 03", coach3Role: "Nghệ thuật · Chờ phân công chính thức",
@@ -17,12 +21,14 @@ const content = {
     courseAge: "Độ tuổi mẫu", courseTime: "Lịch mẫu", coursePrice: "Học phí/HS/buổi", courseInterest: "Tôi quan tâm", courseDemo: "ẢNH DEMO", categorySports: "Thể thao", categoryMartial: "Võ thuật", categoryArts: "Nghệ thuật — biểu diễn"
   },
   en: {
-    skip: "Skip to main content", demoBadge: "INTERNAL DEMO", demoNote: "Sample schedules, profiles and contact details are used for design review.", openMenu: "Open menu",
+    skip: "Skip to main content", demoBadge: "INTERNAL DEMO", demoNote: "Sample schedules, profiles and contact details are used for design review.", openMenu: "Open menu", partnerLabel: "In collaboration with",
     navProgram: "Program", navActivities: "Activities", navFees: "Fees", navInstructors: "Instructors", navFaq: "FAQ", navRegister: "Request a consultation",
     heroEyebrow: "SNA AFTER SCHOOL PROGRAM · 2026 DEMO", heroTitle: "Unlock potential.<br>Build confidence.<br><span>Grow holistically.</span>", heroDescription: "A proposed sports, martial arts and performing arts program for students, hosted at SNA and supported by the professional team from Huy Vo Education.",
-    primaryCta: "Request a consultation", secondaryCta: "Explore 8 activities", trustActivities: "diverse activities", trustGroups: "development paths", trustSaving: "full-course saving", imageDemo: "Demo image — to be replaced by SNA-approved photography",
+    primaryCta: "Request a consultation", secondaryCta: "Explore 8 activities", trustActivities: "diverse activities", trustGroups: "development paths", trustSaving: "full-course saving", imageDemo: "Demo image — to be replaced by SNA-approved photography", imageDemoShort: "Demo image",
+    proofKicker: "WHAT PARENTS CARE ABOUT", proofTitle: "An after-school environment parents can trust", proof1: "Safety across every touchpoint", proof2: "A path shaped around each child's interests", proof3: "Transparent fees and information", proofDemo: "Direction copy — official procedures pending approval",
     benefitKicker: "Every afternoon opens a new opportunity", benefitTitle: "Where interests become lasting skills",
     benefit1Title: "Diverse choices", benefit1Text: "Eight activities across sports, martial arts and performing arts.", benefit2Title: "Qualified team", benefit2Text: "Instructor and coach profiles selected for each activity.", benefit3Title: "Easy registration", benefit3Text: "Parents can select multiple activities and preferred time slots.", benefit4Title: "Transparent fees", benefit4Text: "Clear per-session fees and savings based on registration duration.",
+    insightSeal: "development pillars", insightKicker: "Parent insight", insightTitle: "After school is more than time that needs to be filled", insightLead: "It is where children step away from screens, move with purpose, discover what they are good at and come home more confident.", pillar1Title: "Healthier", pillar1Text: "Positive movement habits and growing stamina.", pillar2Title: "More confident", pillar2Text: "Express, collaborate and step beyond the familiar.", pillar3Title: "More resilient", pillar3Text: "Discipline, courage and the joy of weekly progress.", insightCta: "Find the right journey for your child",
     activitiesKicker: "Explore the program", activitiesTitle: "8 activities — 3 development paths", activitiesIntro: "Choose an activity that matches your child's interests. Ages and schedules below are sample data for demo review.", filterAll: "All", filterSports: "Sports", filterMartial: "Martial arts", filterArts: "Performing arts",
     feesKicker: "Proposed fees from the brief", feesTitle: "Commit longer — save more", feesIntro: "Fees are shown per student per session. Official totals will follow the confirmed schedule and number of sessions.", paySession: "Pay per session", paySessionText: "100% of listed fee", paySession1: "Flexible trial option", paySession2: "No discount applied", payMonthly: "Monthly plan", payMonthlyText: "95% × fee/session × sessions", payMonthly1: "Plan ahead with ease", payMonthly2: "Save every month", payCourse: "Full-course plan", payCourseText: "90% × fee/session × total sessions", payCourse1: "Best available saving", payCourse2: "Maintain a consistent schedule", recommended: "Recommended", feeCaption: "Sample conversion based on fees stated in the brief", feeBase: "Listed fee", feeMonth: "Monthly −5%", feeCourse: "Full course −10%",
     instructorKicker: "The team beside every learner", instructorTitle: "The right expertise — delivered with inspiration", instructorIntro: "This section currently uses sample profiles. Names, photos and achievements will be published only after HVE and SNA approval.", profileDemo: "Demo profile", coach1: "Sample coach 01", coach1Role: "Sports · Official assignment pending", coach2: "Sample coach 02", coach2Role: "Martial arts · Official assignment pending", coach3: "Sample instructor 03", coach3Role: "Arts · Official assignment pending",
@@ -112,6 +118,7 @@ function renderCourses() {
     return `<article class="course-card" data-group="${course.group}" ${activeFilter !== "all" && activeFilter !== course.group ? "hidden" : ""}>${visual}<div class="course-body"><span class="course-category">${categoryLabel(course.group)}</span><h3>${name}</h3><div class="course-meta"><span>${text("courseAge")}: ${age}</span><span>${text("courseTime")}: ${time}</span></div><div class="course-price"><div><small>${text("coursePrice")}</small><strong>${course.price}</strong></div><button type="button" class="select-course" data-course="${course.id}">${text("courseInterest")}</button></div></div></article>`;
   }).join("");
   grid.querySelectorAll(".select-course").forEach((button) => button.addEventListener("click", () => preselectCourse(button.dataset.course)));
+  queueMicrotask(initReveals);
 }
 
 function renderCourseOptions() {
@@ -129,6 +136,7 @@ function renderFaqs() {
     container.querySelectorAll(".faq-question").forEach((item) => { item.setAttribute("aria-expanded", "false"); document.getElementById(item.getAttribute("aria-controls")).hidden = true; });
     if (!wasOpen) { button.setAttribute("aria-expanded", "true"); document.getElementById(button.getAttribute("aria-controls")).hidden = false; }
   }));
+  queueMicrotask(initReveals);
 }
 
 function preselectCourse(courseId) {
@@ -143,6 +151,39 @@ function track(event, properties = {}) {
   window.dataLayer = window.dataLayer || [];
   window.dataLayer.push({ event, locale: currentLang, ...properties });
 }
+
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach((entry) => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add("is-visible");
+      revealObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: .12, rootMargin: "0px 0px -35px" });
+
+function initReveals() {
+  const targets = document.querySelectorAll(".section-heading, .benefit-card, .course-card, .price-card, .instructor-card, .process-list article, .faq-item, .form-card, .insight-image, .insight-copy");
+  targets.forEach((element, index) => {
+    if (element.dataset.revealReady) return;
+    element.dataset.revealReady = "true";
+    element.classList.add("reveal");
+    if (element.classList.contains("insight-image")) element.classList.add("reveal-left");
+    if (element.classList.contains("insight-copy")) element.classList.add("reveal-right");
+    element.style.transitionDelay = `${Math.min(index % 4, 3) * 55}ms`;
+    revealObserver.observe(element);
+  });
+}
+
+const heroImage = document.querySelector(".hero-media img");
+let parallaxFrame = 0;
+window.addEventListener("scroll", () => {
+  if (parallaxFrame || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  parallaxFrame = requestAnimationFrame(() => {
+    const offset = Math.min(window.scrollY, 760) * .055;
+    heroImage.style.transform = `translate3d(0, ${offset}px, 0) scale(1.035)`;
+    parallaxFrame = 0;
+  });
+}, { passive: true });
 
 document.querySelectorAll(".lang-button").forEach((button) => button.addEventListener("click", () => applyLanguage(button.dataset.lang)));
 document.querySelectorAll(".filter-button").forEach((button) => button.addEventListener("click", () => {
@@ -224,3 +265,4 @@ document.getElementById("reset-form").addEventListener("click", () => {
 });
 
 applyLanguage(currentLang);
+initReveals();
