@@ -4,6 +4,12 @@ Static bilingual landing-page demo prepared from the SNA After School brief.
 
 The primary transparent SNA lockup and footer mark are sourced from the official SNA Marianapolis website (`snamarianapolis.edu.vn`). The earlier JPEG conversion is not used because it replaced the original alpha channel with a black background.
 
+## Generated demo imagery
+
+The hero, eight activity cards and three facility concepts in `assets/generated/` were created with OpenAI ImageGen in built-in generation mode. Prompts specified Vietnamese children, a Vietnamese tropical school setting, safe age-appropriate activities and the SNA burgundy/gold visual direction. Official SNA campus and school-life images were used only as architectural and atmosphere references.
+
+These files are illustrative concepts, not documentary photographs of SNA facilities, students or staff. The interface labels them as AI illustrations; production must replace or explicitly approve them before launch.
+
 ## Demo behavior
 
 - All schedules, age ranges, staff profiles and contact details are visibly marked as sample content.
