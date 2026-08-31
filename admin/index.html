@@ -50,25 +50,30 @@
       <div class="dashboard-content">
         <!-- Summary Cards -->
         <div class="summary-cards">
-          <div class="stat-card">
+          <div class="stat-card card-today">
             <div class="stat-title">Hôm nay</div>
             <div class="stat-value" id="stat-today">0</div>
+            <svg class="stat-card-icon" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
           </div>
-          <div class="stat-card">
+          <div class="stat-card card-consulting">
             <div class="stat-title">Đang tư vấn</div>
             <div class="stat-value text-blue" id="stat-consulting">0</div>
+            <svg class="stat-card-icon" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
           </div>
-          <div class="stat-card">
+          <div class="stat-card card-followup">
             <div class="stat-title">Cần Follow-up</div>
             <div class="stat-value text-orange" id="stat-followup">0</div>
+            <svg class="stat-card-icon" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
           </div>
-          <div class="stat-card">
-            <div class="stat-title">Đã nhập học</div>
+          <div class="stat-card card-enrolled">
+            <div class="stat-title">Đã đăng ký</div>
             <div class="stat-value text-green" id="stat-enrolled">0</div>
+            <svg class="stat-card-icon" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>
           </div>
-          <div class="stat-card">
+          <div class="stat-card card-error">
             <div class="stat-title">Lỗi đồng bộ</div>
             <div class="stat-value text-red" id="stat-sync-errors">0</div>
+            <svg class="stat-card-icon" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
           </div>
         </div>
 
@@ -80,17 +85,23 @@
           <select id="filter-status">
             <option value="">Tất cả trạng thái</option>
             <option value="new">Mới</option>
+            <option value="contacted">Đã liên hệ</option>
             <option value="consulting">Đang tư vấn</option>
-            <option value="enrolled">Đã nhập học</option>
-            <option value="dropped">Đã hủy</option>
+            <option value="qualified">Tiềm năng</option>
+            <option value="enrolled">Đã đăng ký</option>
+            <option value="not_interested">Không quan tâm</option>
+            <option value="unreachable">Không liên lạc được</option>
           </select>
           <select id="filter-activity">
-            <option value="">Tất cả kỹ năng</option>
-            <option value="public_speaking">MC / Thuyết trình</option>
-            <option value="swimming">Bơi lội</option>
+            <option value="">Tất cả bộ môn</option>
+            <option value="football">Bóng đá</option>
             <option value="basketball">Bóng rổ</option>
-            <option value="art">Mỹ thuật</option>
-            <option value="music">Thanh nhạc</option>
+            <option value="dance">Nhảy hiện đại</option>
+            <option value="vovinam">Vovinam</option>
+            <option value="taekwondo">Taekwondo</option>
+            <option value="karate">Karate</option>
+            <option value="drums">Trống hội</option>
+            <option value="zither">Đàn tranh</option>
           </select>
           <button id="btn-refresh" class="btn btn-ghost btn-icon">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 4v6h-6"/><path d="M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
@@ -110,7 +121,7 @@
                   <th>Học sinh</th>
                   <th>Phụ huynh</th>
                   <th>Điện thoại</th>
-                  <th>Kỹ năng</th>
+                  <th>Bộ môn</th>
                   <th>Trạng thái</th>
                   <th>Ngày tạo</th>
                   <th>Thao tác</th>

@@ -110,10 +110,10 @@ async function postAction(request, response, context) {
 module.exports = async function handler(request, response) {
   try {
     const context = await requireAdmin(request);
-    if (request.method === "GET") return getLeads(request, response, context);
-    if (request.method === "PATCH") return patchLead(request, response, context);
-    if (request.method === "DELETE") return deleteLead(request, response, context);
-    if (request.method === "POST") return postAction(request, response, context);
+    if (request.method === "GET") return await getLeads(request, response, context);
+    if (request.method === "PATCH") return await patchLead(request, response, context);
+    if (request.method === "DELETE") return await deleteLead(request, response, context);
+    if (request.method === "POST") return await postAction(request, response, context);
     response.setHeader("Allow", "GET, PATCH, DELETE, POST");
     return sendJson(response, 405, { ok: false, error: "method_not_allowed" });
   } catch (error) {

@@ -122,15 +122,28 @@ function setupListeners() {
 }
 
 async function fetchAPI(endpoint, options = {}) {
-  const url = `/api/admin/leads${endpoint}`;
+  const url = `/api/admin/leads${endpoint === '/' ? '' : endpoint}`;
   const headers = {
     'Authorization': `Bearer ${session.access_token}`,
     'Content-Type': 'application/json',
     ...(options.headers || {})
   };
-  const res = await fetch(url, { ...options, headers });
-  const data = await res.json();
-  if (!res.ok) throw new Error(data.error || 'api_error');
+  let res;
+  try {
+    res = await fetch(url, { ...options, headers });
+  } catch (e) {
+    throw new Error('Network error: ' + e.message);
+  }
+  const text = await res.text();
+  let data = {};
+  try {
+    if (text) data = JSON.parse(text);
+  } catch (e) {
+    throw new Error(`Parse error. Status: ${res.status}. Body: ${text.slice(0,100)}`);
+  }
+  if (!res.ok) {
+    throw new Error(data.error || `HTTP ${res.status} error: ${text.slice(0, 100)}`);
+  }
   return data;
 }
 
@@ -195,7 +208,7 @@ function renderLeads() {
     const tr = document.createElement('tr');
     tr.innerHTML = `
       <td>${lead.reference}</td>
-      <td><strong>${escapeHTML(lead.student_name)}</strong><br><small>${lead.student_age} tuổi</small></td>
+      <td><strong>${escapeHTML(lead.student_name)}</strong><br><small>${escapeHTML(lead.grade) || 'Chưa rõ'}</small></td>
       <td>${escapeHTML(lead.parent_name)}</td>
       <td><a href="tel:${lead.phone_raw}">${lead.phone_raw}</a></td>
       <td>
@@ -204,11 +217,14 @@ function renderLeads() {
         </div>
       </td>
       <td>
-        <select class="status-select" data-id="${lead.id}">
+        <select class="status-select" data-id="${lead.id}" data-original="${lead.status}">
           <option value="new" ${lead.status === 'new' ? 'selected' : ''}>Mới</option>
+          <option value="contacted" ${lead.status === 'contacted' ? 'selected' : ''}>Đã liên hệ</option>
           <option value="consulting" ${lead.status === 'consulting' ? 'selected' : ''}>Đang tư vấn</option>
-          <option value="enrolled" ${lead.status === 'enrolled' ? 'selected' : ''}>Đã nhập học</option>
-          <option value="dropped" ${lead.status === 'dropped' ? 'selected' : ''}>Đã hủy</option>
+          <option value="qualified" ${lead.status === 'qualified' ? 'selected' : ''}>Tiềm năng</option>
+          <option value="enrolled" ${lead.status === 'enrolled' ? 'selected' : ''}>Đã đăng ký</option>
+          <option value="not_interested" ${lead.status === 'not_interested' ? 'selected' : ''}>Không quan tâm</option>
+          <option value="unreachable" ${lead.status === 'unreachable' ? 'selected' : ''}>Không liên lạc được</option>
         </select>
         ${lead.sheet_sync_status === 'failed' ? '<span title="Lỗi Sheet" class="text-red">⚠️</span>' : ''}
       </td>
@@ -228,7 +244,7 @@ function renderLeads() {
     card.innerHTML = `
       <div class="lead-card-header">
         <div>
-          <div class="lead-card-title">${escapeHTML(lead.student_name)} (${lead.student_age}t)</div>
+          <div class="lead-card-title">${escapeHTML(lead.student_name)} - <small>${escapeHTML(lead.grade) || 'Chưa rõ'}</small></div>
           <div class="lead-card-meta">${lead.reference} - ${new Date(lead.created_at).toLocaleDateString('vi-VN')}</div>
         </div>
         <span class="status-badge ${lead.status}">${statusName(lead.status)}</span>
@@ -241,11 +257,14 @@ function renderLeads() {
         ${(lead.activities || []).map(a => `<span class="tag">${activityName(a)}</span>`).join('')}
       </div>
       <div class="lead-card-actions">
-        <select class="status-select" data-id="${lead.id}" style="padding: 0.25rem; font-size: 0.75rem;">
+        <select class="status-select" data-id="${lead.id}" data-original="${lead.status}" style="padding: 0.25rem; font-size: 0.75rem;">
           <option value="new" ${lead.status === 'new' ? 'selected' : ''}>Mới</option>
+          <option value="contacted" ${lead.status === 'contacted' ? 'selected' : ''}>Đã liên hệ</option>
           <option value="consulting" ${lead.status === 'consulting' ? 'selected' : ''}>Đang tư vấn</option>
-          <option value="enrolled" ${lead.status === 'enrolled' ? 'selected' : ''}>Đã nhập học</option>
-          <option value="dropped" ${lead.status === 'dropped' ? 'selected' : ''}>Đã hủy</option>
+          <option value="qualified" ${lead.status === 'qualified' ? 'selected' : ''}>Tiềm năng</option>
+          <option value="enrolled" ${lead.status === 'enrolled' ? 'selected' : ''}>Đã đăng ký</option>
+          <option value="not_interested" ${lead.status === 'not_interested' ? 'selected' : ''}>Không quan tâm</option>
+          <option value="unreachable" ${lead.status === 'unreachable' ? 'selected' : ''}>Không liên lạc được</option>
         </select>
         <button class="btn btn-outline btn-sm btn-delete" data-id="${lead.id}">Xóa</button>
       </div>
@@ -255,7 +274,14 @@ function renderLeads() {
 
   // Attach event listeners for dynamic elements
   document.querySelectorAll('.status-select').forEach(sel => {
-    sel.addEventListener('change', (e) => updateLeadStatus(e.target.dataset.id, e.target.value));
+    sel.addEventListener('change', (e) => {
+      if (confirm('Bạn có chắc chắn muốn thay đổi trạng thái của lead này?')) {
+        updateLeadStatus(e.target.dataset.id, e.target.value);
+        e.target.dataset.original = e.target.value; // Update original if confirmed
+      } else {
+        e.target.value = e.target.dataset.original; // Revert if canceled
+      }
+    });
   });
   document.querySelectorAll('.btn-delete').forEach(btn => {
     btn.addEventListener('click', (e) => deleteLead(e.target.dataset.id));
@@ -320,11 +346,14 @@ function escapeHTML(str) {
 
 function activityName(act) {
   const map = {
-    'public_speaking': 'MC / Thuyết trình',
-    'swimming': 'Bơi lội',
+    'football': 'Bóng đá',
     'basketball': 'Bóng rổ',
-    'art': 'Mỹ thuật',
-    'music': 'Thanh nhạc'
+    'dance': 'Nhảy hiện đại',
+    'vovinam': 'Vovinam',
+    'taekwondo': 'Taekwondo',
+    'karate': 'Karate',
+    'drums': 'Trống hội',
+    'zither': 'Đàn tranh'
   };
   return map[act] || act;
 }
@@ -332,9 +361,12 @@ function activityName(act) {
 function statusName(status) {
   const map = {
     'new': 'Mới',
+    'contacted': 'Đã liên hệ',
     'consulting': 'Đang tư vấn',
-    'enrolled': 'Đã nhập học',
-    'dropped': 'Đã hủy'
+    'qualified': 'Tiềm năng',
+    'enrolled': 'Đã đăng ký',
+    'not_interested': 'Không quan tâm',
+    'unreachable': 'Không liên lạc được'
   };
   return map[status] || status;
 }

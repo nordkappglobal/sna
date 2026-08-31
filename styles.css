@@ -408,6 +408,52 @@ legend small { color: var(--muted); font-weight: 500; }
   .demo-contact strong { font-size: 22px; }
 }
 
+/* New Floating Widgets */
+.floating-widgets {
+  position: fixed; right: 24px; bottom: 84px; z-index: 95;
+  display: flex; flex-direction: column; gap: 16px; align-items: flex-end;
+}
+.f-btn {
+  position: relative; display: flex; align-items: center; justify-content: center;
+  width: 52px; height: 52px; border-radius: 50%; color: #fff; text-decoration: none;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.2); transition: transform 0.2s;
+}
+.f-btn:hover { transform: translateY(-4px); }
+.f-tx { display: none; }
+.f-ic {
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px; width: 100%; height: 100%; border-radius: 50%;
+}
+.f-btn.call { background: #22c55e; animation: callPulse 2s ease-in-out infinite; }
+.f-btn.zalo { background: #0068ff; animation: zaloPulse 2s ease-in-out infinite; animation-delay: 1s; }
+.f-btn.call .f-ic { animation: callRing 1.6s ease-in-out infinite; }
+
+@keyframes callPulse { 0%,100% { box-shadow: 0 0 0 0 rgba(34,197,94,0.6); } 50% { box-shadow: 0 0 0 14px rgba(34,197,94,0); } }
+@keyframes zaloPulse { 0%,100% { box-shadow: 0 0 0 0 rgba(0,104,255,0.6); } 50% { box-shadow: 0 0 0 14px rgba(0,104,255,0); } }
+@keyframes callRing { 0%,100% { transform: rotate(0); } 10% { transform: rotate(-15deg); } 20% { transform: rotate(12deg); } 30% { transform: rotate(-10deg); } 40% { transform: rotate(6deg); } 50% { transform: rotate(0); } }
+
+@media (max-width: 760px) {
+  body { padding-bottom: 56px; }
+  .mobile-sticky-cta { display: none !important; }
+  .floating-widgets {
+    right: 0; left: 0; bottom: 0; flex-direction: row; gap: 0;
+    background: #fff; box-shadow: 0 -2px 16px rgba(0,0,0,0.1); align-items: stretch;
+  }
+  .f-btn {
+    flex: 1; border-radius: 0; width: auto; height: 56px;
+    box-shadow: none; animation: none !important; gap: 8px; justify-content: center;
+  }
+  .f-btn:hover { transform: none; }
+  .f-tx { display: block; font-weight: 800; font-size: 15px; color: #1e293b; }
+  .f-btn.zalo .f-tx { color: #0068ff; }
+  .f-btn.call .f-tx { color: #22c55e; }
+  .f-ic { width: auto; height: auto; font-size: 20px; }
+  .f-btn.call .f-ic { animation: none; color: #22c55e; }
+  .f-btn.zalo .f-ic { display: none; }
+  .f-btn.call, .f-btn.zalo { background: #fff; }
+  .f-btn.call { border-right: 1px solid #e2e8f0; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; animation: none !important; }
 }
