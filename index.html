@@ -13,16 +13,10 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/styles.css?v=20260831d">
-  <script src="/app.js?v=20260831d" defer></script>
+  <script type="module" src="/app.js?v=20260831d"></script>
 </head>
 <body>
   <a class="skip-link" href="#main" data-i18n="skip">Bỏ qua đến nội dung chính</a>
-
-  <div class="demo-ribbon" role="status">
-    <span class="demo-dot" aria-hidden="true"></span>
-    <strong data-i18n="demoBadge">THÔNG TIN ĐANG CẬP NHẬT</strong>
-    <span data-i18n="demoNote">Lịch học, học phí và hồ sơ giảng viên sẽ được cập nhật sau khi có xác nhận chính thức.</span>
-  </div>
 
   <header class="site-header" id="top">
     <div class="brand-row shell" aria-label="Đơn vị phối hợp">
@@ -176,11 +170,12 @@
           <p data-i18n="instructorIntro">Các giảng viên và huấn luyện viên tiêu biểu có chuyên môn vững vàng, nhiều năm kinh nghiệm và phương pháp hướng dẫn phù hợp với học sinh.</p>
         </div>
         <div class="instructor-grid">
-          <article class="instructor-card"><img class="instructor-photo" src="/assets/instructors/nguyen-le-hoang-phuc.webp" alt="Huấn luyện viên Nguyễn Lê Hoàng Phúc" loading="lazy" width="640" height="960"><div class="instructor-card-body"><span data-i18n="instructorFootball">Bóng đá</span><h3>Nguyễn Lê Hoàng Phúc</h3><p data-i18n="coach1Role">Huấn luyện viên · 6 năm kinh nghiệm</p><small data-i18n="coach1Credential">Chứng chỉ Huấn luyện viên AFC</small></div></article>
-          <article class="instructor-card"><img class="instructor-photo" src="/assets/instructors/cao-hoang-le.webp" alt="Giảng viên Cao Hoàng Lê" loading="lazy" width="640" height="960"><div class="instructor-card-body"><span data-i18n="instructorDance">Nhảy hiện đại</span><h3>Cao Hoàng Lê</h3><p data-i18n="coach2Role">Giảng viên · 9 năm kinh nghiệm</p><small data-i18n="coach2Credential">Cử nhân Huấn luyện Múa</small></div></article>
-          <article class="instructor-card"><img class="instructor-photo" src="/assets/instructors/nguyen-nhat-truong.webp" alt="Huấn luyện viên Nguyễn Nhật Trường" loading="lazy" width="640" height="960"><div class="instructor-card-body"><span data-i18n="instructorKarate">Karate</span><h3>Nguyễn Nhật Trường</h3><p data-i18n="coach3Role">Huấn luyện viên · 10 năm kinh nghiệm</p><small data-i18n="coach3Credential">Đai đen Tứ đẳng Karate</small></div></article>
-          <article class="instructor-card"><img class="instructor-photo" src="/assets/instructors/nguyen-hoang-phuc.webp" alt="Huấn luyện viên Nguyễn Hoàng Phúc" loading="lazy" width="640" height="960"><div class="instructor-card-body"><span data-i18n="instructorBasketball">Bóng rổ</span><h3>Nguyễn Hoàng Phúc</h3><p data-i18n="coach4Role">Huấn luyện viên · 10 năm kinh nghiệm</p><small data-i18n="coach4Credential">Cử nhân Huấn luyện Thể thao</small></div></article>
-          <article class="instructor-card"><img class="instructor-photo" src="/assets/instructors/ha-truong-khanh.webp" alt="Giảng viên Hà Trường Khanh" loading="lazy" width="640" height="960"><div class="instructor-card-body"><span data-i18n="instructorTaekwondo">Taekwondo</span><h3>Hà Trường Khanh</h3><p data-i18n="coach5Role">Giảng viên · 15 năm kinh nghiệm</p><small data-i18n="coach5Credential">Thạc sĩ Giáo dục học</small></div></article>
+          <article class="instructor-card"><img class="instructor-photo" style="object-position: center 15%" src="/assets/instructors/nguyen-le-hoang-phuc.webp" alt="Huấn luyện viên Nguyễn Lê Hoàng Phúc" loading="lazy" width="640" height="960"><div class="instructor-card-body"><span data-i18n="instructorFootball">Bóng đá</span><h3>Nguyễn Lê Hoàng Phúc</h3><p data-i18n="coach1Role">Huấn luyện viên · 6 năm kinh nghiệm</p><small data-i18n="coach1Credential">Chứng chỉ Huấn luyện viên AFC</small></div></article>
+          <article class="instructor-card"><img class="instructor-photo" style="object-position: center 0%" src="/assets/instructors/cao-hoang-le.webp" alt="Giảng viên Cao Hoàng Lê" loading="lazy" width="640" height="960"><div class="instructor-card-body"><span data-i18n="instructorDance">Nhảy hiện đại</span><h3>Cao Hoàng Lê</h3><p data-i18n="coach2Role">Giảng viên · 9 năm kinh nghiệm</p><small data-i18n="coach2Credential">Cử nhân Huấn luyện Múa</small></div></article>
+          <article class="instructor-card"><img class="instructor-photo" style="object-position: center 10%" src="/assets/instructors/nguyen-nhat-truong.webp" alt="Huấn luyện viên Nguyễn Nhật Trường" loading="lazy" width="640" height="960"><div class="instructor-card-body"><span data-i18n="instructorKarate">Karate</span><h3>Nguyễn Nhật Trường</h3><p data-i18n="coach3Role">Huấn luyện viên · 10 năm kinh nghiệm</p><small data-i18n="coach3Credential">Đai đen Tứ đẳng Karate</small></div></article>
+          <article class="instructor-card"><img class="instructor-photo" style="object-position: center 10%" src="/assets/instructors/nguyen-hoang-phuc.webp" alt="Huấn luyện viên Nguyễn Hoàng Phúc" loading="lazy" width="640" height="960"><div class="instructor-card-body"><span data-i18n="instructorBasketball">Bóng rổ</span><h3>Nguyễn Hoàng Phúc</h3><p data-i18n="coach4Role">Huấn luyện viên · 10 năm kinh nghiệm</p><small data-i18n="coach4Credential">Cử nhân Huấn luyện Thể thao</small></div></article>
+          <article class="instructor-card"><img class="instructor-photo" style="object-position: center 35%" src="/assets/instructors/ha-truong-khanh.webp" alt="Giảng viên Hà Trường Khanh" loading="lazy" width="640" height="960"><div class="instructor-card-body"><span data-i18n="instructorTaekwondo">Taekwondo</span><h3>Hà Trường Khanh</h3><p data-i18n="coach5Role">Giảng viên – 15 năm kinh nghiệm</p><small data-i18n="coach5Credential">Thạc sĩ Giáo dục học</small></div></article>
+          <article class="instructor-card"><img class="instructor-photo" style="object-position: center 25%" src="/assets/instructors/dinh-thien-long.jpg" alt="Huấn luyện viên Đinh Thiên Long" loading="lazy" width="640" height="960"><div class="instructor-card-body"><span data-i18n="instructorDrums">Trống</span><h3>Đinh Thiên Long</h3><p data-i18n="coach6Role">Huấn luyện viên – 8 năm kinh nghiệm</p><small data-i18n="coach6Credential">Cử nhân Âm nhạc</small></div></article>
         </div>
       </div>
     </section>
@@ -224,12 +219,12 @@
           <ul class="register-points"><li data-i18n="registerPoint1">Tư vấn môn học theo sở thích và độ tuổi</li><li data-i18n="registerPoint2">Hỗ trợ lựa chọn lịch học phù hợp</li><li data-i18n="registerPoint3">Giải đáp thông tin về học phí và đăng ký</li></ul>
         </aside>
         <div class="form-card">
-          <div class="form-demo-alert"><strong data-i18n="formNotice">LƯU Ý</strong><span data-i18n="formDemoAlert">Form trực tuyến đang được hoàn thiện. Vui lòng không nhập thông tin cá nhân thật; phụ huynh có thể liên hệ hotline để được tư vấn.</span></div>
+          <!-- Form demo alert removed -->
           <form id="lead-form" novalidate>
             <div class="form-grid">
-              <div class="field"><label for="parent-name" data-i18n="labelParent">Họ và tên phụ huynh *</label><input id="parent-name" name="parentName" autocomplete="name" required data-i18n-placeholder="placeholderParent" placeholder="Nguyễn Văn Demo"></div>
+              <div class="field"><label for="parent-name" data-i18n="labelParent">Họ và tên phụ huynh *</label><input id="parent-name" name="parentName" autocomplete="name" required data-i18n-placeholder="placeholderParent" placeholder="Nguyễn Văn A"></div>
               <div class="field"><label for="phone" data-i18n="labelPhone">Số điện thoại/Zalo *</label><input id="phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" required pattern="[0-9 +.-]{9,15}" placeholder="0900000000"></div>
-              <div class="field"><label for="student-name" data-i18n="labelStudent">Họ và tên học sinh *</label><input id="student-name" name="studentName" required data-i18n-placeholder="placeholderStudent" placeholder="Học sinh Demo"></div>
+              <div class="field"><label for="student-name" data-i18n="labelStudent">Họ và tên học sinh *</label><input id="student-name" name="studentName" required data-i18n-placeholder="placeholderStudent" placeholder="Nguyễn Bé B"></div>
               <div class="field"><label for="grade" data-i18n="labelGrade">Lớp đang học *</label><select id="grade" name="grade" required><option value="" data-i18n="selectGrade">Chọn lớp</option><option>Lớp 1</option><option>Lớp 2</option><option>Lớp 3</option><option>Lớp 4</option><option>Lớp 5</option><option>Lớp 6</option><option>Lớp 7</option><option>Lớp 8</option><option>Lớp 9</option><option>Lớp 10</option><option>Lớp 11</option><option>Lớp 12</option></select></div>
             </div>
             <fieldset><legend data-i18n="labelActivities">Môn học quan tâm * <small>(có thể chọn nhiều)</small></legend><div class="check-grid" id="activity-options"></div><p class="field-error" id="course-error" data-i18n="errorCourse">Vui lòng chọn ít nhất một môn.</p></fieldset>
@@ -239,19 +234,49 @@
             <p class="form-message" id="form-message" role="alert"></p>
             <button class="button button-primary submit-button" type="submit" id="submit-button"><span data-i18n="submit">Đăng ký nhận tư vấn</span><span aria-hidden="true">→</span></button>
           </form>
-          <div class="success-panel" id="success-panel" hidden tabindex="-1"><span class="success-icon">✓</span><h3 data-i18n="successTitle">Đã ghi nhận đăng ký thử</h3><p data-i18n="successText">Đây vẫn là form thử nghiệm nên thông tin chưa được chuyển đến đội ngũ tư vấn. Vui lòng liên hệ hotline để được hỗ trợ ngay.</p><button type="button" class="button button-secondary" id="reset-form" data-i18n="submitAnother">Gửi đăng ký khác</button></div>
+          <div class="success-panel" id="success-panel" hidden tabindex="-1"><span class="success-icon">✓</span><h3 data-i18n="successTitle">Đăng ký thành công</h3><p id="success-text" data-i18n="successText">Cảm ơn phụ huynh đã đăng ký. Mã tham chiếu của bạn là <strong id="ref-code"></strong>. Chúng tôi sẽ liên hệ trong thời gian sớm nhất.</p><button type="button" class="button button-secondary" id="reset-form" data-i18n="submitAnother">Gửi đăng ký khác</button></div>
         </div>
       </div>
     </section>
   </main>
 
-  <footer class="site-footer">
-    <div class="shell footer-grid">
-      <div class="footer-brand"><div class="footer-logos"><img src="/assets/logos/sna-footer.webp" alt="SNA Marianapolis"><img src="/assets/logos/nvh.png" alt="NVH"><img src="/assets/logos/hve.png" alt="HVE"></div><strong>SNA AFTER SCHOOL</strong><p data-i18n="footerDemo">Lịch học, học phí và hồ sơ giảng viên sẽ được cập nhật theo xác nhận chính thức của các đơn vị phối hợp.</p></div>
-      <div><h3 data-i18n="footerNav">Điều hướng</h3><a href="#activities" data-i18n="navActivities">Môn học</a><a href="#fees" data-i18n="navFees">Học phí</a><a href="#register" data-i18n="navRegister">Đăng ký tư vấn</a></div>
-      <div><h3 data-i18n="footerContact">Thông tin liên hệ</h3><a href="tel:02513847369">0251 384 7369 · <span data-i18n="contactMsDien">Cô Diện</span></a><a href="tel:0769663366">0769 663 366 · <span data-i18n="contactMrBach">Anh Bách</span></a></div>
+  <footer class="site-footer" id="footer">
+    <div class="shell footer-cta">
+      <div><span class="footer-eyebrow" data-i18n="footerEyebrow">SNA AFTER SCHOOL · 2026</span><h2 data-i18n="footerCta">Cùng con lựa chọn hành trình sau giờ học phù hợp</h2></div>
+      <a class="button footer-cta-button" href="#register"><span data-i18n="footerCtaButton">Đăng ký nhận tư vấn</span><span aria-hidden="true">→</span></a>
     </div>
-    <div class="footer-bottom shell"><span>© 2026 SNA After School.</span><a href="#top" data-i18n="backTop">Về đầu trang ↑</a></div>
+
+    <div class="shell footer-grid">
+      <div class="footer-brand">
+        <div class="footer-signature"><img src="/assets/logos/sna-footer.webp" alt="Biểu trưng SNA Marianapolis" width="219" height="219"><div><strong>SNA MARIANAPOLIS</strong><span>AFTER SCHOOL PROGRAM</span><small>BIÊN HÒA CAMPUS</small></div></div>
+        <p data-i18n="footerDemo">Không gian để học sinh khám phá sở thích, rèn luyện kỹ năng và trưởng thành trong môi trường an toàn, chuyên nghiệp.</p>
+      </div>
+
+      <nav class="footer-column" aria-label="Điều hướng cuối trang">
+        <h3 data-i18n="footerNav">Khám phá chương trình</h3>
+        <a href="#program" data-i18n="navProgram">Chương trình</a><a href="#activities" data-i18n="navActivities">Môn học</a><a href="#fees" data-i18n="navFees">Học phí</a><a href="#instructors" data-i18n="navInstructors">Giảng viên</a><a href="#faq" data-i18n="navFaq">Câu hỏi thường gặp</a>
+      </nav>
+
+      <div class="footer-column footer-contact">
+        <h3 data-i18n="footerContact">Tư vấn phụ huynh</h3>
+        <a class="footer-contact-link" href="tel:02513847369"><span class="footer-icon" aria-hidden="true">01</span><span><strong>0251 384 7369</strong><small data-i18n="contactMsDien">Cô Diện</small></span></a>
+        <a class="footer-contact-link" href="tel:0769663366"><span class="footer-icon" aria-hidden="true">02</span><span><strong>0769 663 366</strong><small data-i18n="contactMrBach">Anh Bách</small></span></a>
+      </div>
+
+      <div class="footer-column footer-campus">
+        <h3 data-i18n="footerCampus">Địa điểm chương trình</h3>
+        <strong>SNA Marianapolis International School</strong>
+        <p data-i18n="footerAddress">397 Đường 30/4, Phường Trấn Biên, Đồng Nai</p>
+        <a class="footer-external" href="https://snamarianapolis.edu.vn/vi/" target="_blank" rel="noopener"><span data-i18n="footerOfficial">Trang chủ SNA</span><span aria-hidden="true">↗</span></a>
+      </div>
+    </div>
+
+    <div class="shell footer-partners">
+      <span data-i18n="footerPartners">Phối hợp triển khai chương trình</span>
+      <div class="footer-partner-logos"><img src="/assets/logos/nvh.png" alt="Nhà Văn hóa Thanh thiếu nhi tỉnh Đồng Nai"><i aria-hidden="true">×</i><img src="/assets/logos/hve.png" alt="Huy Võ Education"></div>
+    </div>
+
+    <div class="footer-bottom shell"><span>© 2026 <span data-i18n="footerRights">SNA After School. All rights reserved.</span></span><a href="#top" data-i18n="backTop">Về đầu trang ↑</a></div>
   </footer>
 
   <a href="#register" class="mobile-sticky-cta" data-i18n="navRegister">Đăng ký tư vấn</a>

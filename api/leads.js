@@ -26,7 +26,7 @@ module.exports = async function handler(request, response) {
       .select("id,reference")
       .eq("phone_normalized", input.phone_normalized)
       .eq("student_name", input.student_name)
-      .eq("activities", input.activities)
+      .contains("activities", input.activities)
       .gte("created_at", tenMinutesAgo)
       .is("deleted_at", null)
       .order("created_at", { ascending: false })

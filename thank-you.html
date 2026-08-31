@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="vi" class="js">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Đăng ký thành công | SNA After School</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+  <style>
+    body {
+      background: var(--burgundy-dark);
+      background-image: radial-gradient(circle at 50% -20%, rgba(125, 0, 33, 0.8), var(--burgundy-dark) 80%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+    .thankyou-card {
+      width: 100%;
+      max-width: 600px;
+      background: #fff;
+      border-radius: var(--radius-lg);
+      padding: 40px;
+      box-shadow: 0 40px 100px rgba(0, 0, 0, 0.4);
+      color: var(--ink);
+    }
+    .thankyou-header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    .thankyou-icon {
+      width: 80px;
+      height: 80px;
+      margin: 0 auto 20px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: var(--success);
+      color: #fff;
+      font-size: 36px;
+      font-weight: 800;
+      box-shadow: 0 0 0 12px #e8f6ef;
+    }
+    .thankyou-header h1 {
+      margin: 0 0 8px;
+      color: var(--burgundy);
+      font-size: 28px;
+    }
+    .thankyou-header p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 15px;
+    }
+    .receipt {
+      background: var(--surface-soft);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      padding: 24px;
+      margin-bottom: 30px;
+    }
+    .receipt-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 0;
+      border-bottom: 1px dashed var(--line);
+      font-size: 14px;
+    }
+    .receipt-row:last-child {
+      border-bottom: none;
+    }
+    .receipt-label {
+      color: var(--muted);
+    }
+    .receipt-value {
+      font-weight: 700;
+      color: var(--ink);
+      text-align: right;
+    }
+    .receipt-total {
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 2px solid var(--line);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .receipt-total .receipt-label {
+      color: var(--burgundy);
+      font-weight: 800;
+      font-size: 16px;
+    }
+    .receipt-total .receipt-value {
+      color: var(--burgundy);
+      font-size: 22px;
+    }
+    .fee-note {
+      font-size: 12px;
+      color: var(--muted);
+      text-align: center;
+      margin-top: 12px;
+    }
+    .actions {
+      text-align: center;
+    }
+    .redirect-timer {
+      display: block;
+      margin-top: 16px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .redirect-timer strong {
+      color: var(--burgundy);
+    }
+    @media (max-width: 540px) {
+      .thankyou-card { padding: 30px 20px; }
+      .receipt-row { flex-direction: column; align-items: flex-start; gap: 4px; }
+      .receipt-value { text-align: left; }
+    }
+  </style>
+</head>
+<body>
+
+  <main class="thankyou-card reveal is-visible">
+    <div class="thankyou-header">
+      <div class="thankyou-icon">✓</div>
+      <h1>Đăng ký thành công</h1>
+      <p>Cảm ơn Quý phụ huynh đã quan tâm đến chương trình SNA After School.</p>
+    </div>
+
+    <div class="receipt">
+      <div class="receipt-row">
+        <span class="receipt-label">Mã tham chiếu</span>
+        <span class="receipt-value" id="res-ref">...</span>
+      </div>
+      <div class="receipt-row">
+        <span class="receipt-label">Phụ huynh</span>
+        <span class="receipt-value" id="res-parent">...</span>
+      </div>
+      <div class="receipt-row">
+        <span class="receipt-label">Học sinh</span>
+        <span class="receipt-value" id="res-student">...</span>
+      </div>
+      <div class="receipt-row" style="align-items: flex-start;">
+        <span class="receipt-label">Môn học đã chọn<br><small>(Kèm học phí niêm yết/buổi)</small></span>
+        <div class="receipt-value" id="res-activities" style="text-align: right;">...</div>
+      </div>
+
+      <div class="receipt-total">
+        <span class="receipt-label">Tổng học phí dự kiến / buổi</span>
+        <span class="receipt-value" id="res-total">...</span>
+      </div>
+      <div class="fee-note">
+        * Học phí trên là giá niêm yết trên 1 buổi học. Phụ huynh sẽ được giảm 5% khi đăng ký theo tháng hoặc 10% khi đăng ký trọn khóa. Bộ phận tư vấn sẽ liên hệ để xác nhận mức phí chính thức.
+      </div>
+    </div>
+
+    <div class="actions">
+      <a href="https://snamarianapolis.edu.vn/vi/" class="button button-primary" id="btn-return">Trở về trang chủ SNA</a>
+      <span class="redirect-timer">Hệ thống sẽ tự động chuyển hướng sau <strong id="timer">10</strong> giây...</span>
+    </div>
+  </main>
+
+  <script type="module" src="/thank-you.js"></script>
+</body>
+</html>

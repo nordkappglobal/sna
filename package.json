@@ -3,9 +3,19 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "vite --host 127.0.0.1 --port 4173",
-    "build": "vite build && node scripts/copy-static.mjs",
-    "preview": "vite preview --host 127.0.0.1 --port 4173",
+    "dev": "vite --config vite.config.mjs --host 127.0.0.1 --port 4173",
+    "build": "vite --config vite.config.mjs build && node scripts/copy-static.mjs",
+    "preview": "vite --config vite.config.mjs preview --host 127.0.0.1 --port 4173",
     "test": "node --test tests/*.test.js"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.112.4",
+    "dotenv": "^17.4.2",
+    "googleapis": "^176.0.0",
+    "resend": "^6.25.0",
+    "zod": "^4.5.4"
+  },
+  "devDependencies": {
+    "vite": "^8.2.2"
   }
 }

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SNA Admin - Lead Management</title>
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <div id="app">
+    <!-- Login Screen -->
+    <div id="login-screen" class="screen active">
+      <div class="login-card">
+        <div class="logo">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+        </div>
+        <h2>Đăng nhập Admin</h2>
+        <p>Hệ thống quản lý Lead - SNA After School</p>
+        <form id="login-form">
+          <div class="form-group">
+            <label for="admin-email">Email nội bộ</label>
+            <input type="email" id="admin-email" placeholder="email@example.com" required>
+          </div>
+          <div class="form-group">
+            <label for="admin-password">Mật khẩu</label>
+            <input type="password" id="admin-password" placeholder="••••••••" required>
+          </div>
+          <button type="submit" class="btn btn-primary btn-block">Đăng nhập</button>
+        </form>
+        <div id="login-message" class="alert hidden"></div>
+      </div>
+    </div>
+
+    <!-- Dashboard Screen -->
+    <div id="dashboard-screen" class="screen">
+      <header class="admin-header">
+        <div class="header-left">
+          <div class="logo">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+          </div>
+          <h1>SNA Leads</h1>
+        </div>
+        <div class="header-right">
+          <span id="user-email"></span>
+          <button id="logout-btn" class="btn btn-ghost btn-sm">Đăng xuất</button>
+        </div>
+      </header>
+
+      <div class="dashboard-content">
+        <!-- Summary Cards -->
+        <div class="summary-cards">
+          <div class="stat-card">
+            <div class="stat-title">Hôm nay</div>
+            <div class="stat-value" id="stat-today">0</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-title">Đang tư vấn</div>
+            <div class="stat-value text-blue" id="stat-consulting">0</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-title">Cần Follow-up</div>
+            <div class="stat-value text-orange" id="stat-followup">0</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-title">Đã nhập học</div>
+            <div class="stat-value text-green" id="stat-enrolled">0</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-title">Lỗi đồng bộ</div>
+            <div class="stat-value text-red" id="stat-sync-errors">0</div>
+          </div>
+        </div>
+
+        <!-- Filters -->
+        <div class="filters-bar">
+          <div class="search-box">
+            <input type="text" id="filter-search" placeholder="Tìm tên, SĐT, mã...">
+          </div>
+          <select id="filter-status">
+            <option value="">Tất cả trạng thái</option>
+            <option value="new">Mới</option>
+            <option value="consulting">Đang tư vấn</option>
+            <option value="enrolled">Đã nhập học</option>
+            <option value="dropped">Đã hủy</option>
+          </select>
+          <select id="filter-activity">
+            <option value="">Tất cả kỹ năng</option>
+            <option value="public_speaking">MC / Thuyết trình</option>
+            <option value="swimming">Bơi lội</option>
+            <option value="basketball">Bóng rổ</option>
+            <option value="art">Mỹ thuật</option>
+            <option value="music">Thanh nhạc</option>
+          </select>
+          <button id="btn-refresh" class="btn btn-ghost btn-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 4v6h-6"/><path d="M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+          </button>
+        </div>
+
+        <!-- Table / List -->
+        <div class="leads-container">
+          <div id="loading-indicator" class="loading hidden">Đang tải dữ liệu...</div>
+
+          <!-- Desktop Table -->
+          <div class="table-responsive desktop-only">
+            <table class="leads-table">
+              <thead>
+                <tr>
+                  <th>Mã</th>
+                  <th>Học sinh</th>
+                  <th>Phụ huynh</th>
+                  <th>Điện thoại</th>
+                  <th>Kỹ năng</th>
+                  <th>Trạng thái</th>
+                  <th>Ngày tạo</th>
+                  <th>Thao tác</th>
+                </tr>
+              </thead>
+              <tbody id="leads-tbody">
+                <!-- Rows injected via JS -->
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Mobile Cards -->
+          <div id="leads-mobile-list" class="mobile-only">
+            <!-- Cards injected via JS -->
+          </div>
+
+          <!-- Pagination -->
+          <div class="pagination">
+            <button id="btn-prev-page" class="btn btn-outline btn-sm" disabled>Trước</button>
+            <span id="page-info">Trang 1</span>
+            <button id="btn-next-page" class="btn btn-outline btn-sm" disabled>Sau</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.38.4/dist/umd/supabase.js"></script>
+  <script type="module" src="./app.js"></script>
+</body>
+</html>
