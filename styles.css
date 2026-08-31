@@ -174,16 +174,19 @@ th { color: var(--burgundy); font-size: 12px; text-transform: uppercase; }
 
 .section-burgundy { position: relative; overflow: hidden; color: #fff; background: var(--burgundy); }
 .section-burgundy::after { content: ""; position: absolute; width: 420px; height: 420px; right: -140px; top: -160px; border: 80px solid rgba(233, 165, 34, .13); border-radius: 50%; }
-.instructor-layout { position: relative; z-index: 1; display: grid; grid-template-columns: .8fr 1.2fr; gap: 70px; align-items: center; }
-.light-heading { margin-bottom: 0; }
+.instructor-layout { position: relative; z-index: 1; }
+.light-heading { max-width: 760px; margin-bottom: 34px; }
 .light-heading h2 { color: #fff; }
 .light-heading p { color: rgba(255, 255, 255, .7); }
-.instructor-grid { display: grid; gap: 12px; }
-.instructor-card { padding: 19px; display: flex; align-items: center; gap: 16px; border: 1px solid rgba(255, 255, 255, .18); border-radius: var(--radius-md); background: rgba(255, 255, 255, .08); backdrop-filter: blur(10px); }
-.avatar { width: 66px; height: 66px; flex: 0 0 auto; display: grid; place-items: center; border: 1px solid rgba(255, 255, 255, .25); border-radius: 50%; color: var(--burgundy); background: var(--gold); font-weight: 800; }
+.instructor-grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 14px; }
+.instructor-card { min-width: 0; overflow: hidden; border: 1px solid rgba(255, 255, 255, .18); border-radius: var(--radius-md); background: rgba(255, 255, 255, .08); backdrop-filter: blur(10px); transition: transform .25s ease, background .25s ease, border-color .25s ease; }
+.instructor-card:hover { transform: translateY(-5px); border-color: rgba(255, 217, 140, .55); background: rgba(255, 255, 255, .12); }
+.instructor-photo { width: 100%; aspect-ratio: 4 / 5; display: block; object-fit: cover; object-position: center 28%; }
+.instructor-card-body { padding: 17px 16px 19px; }
 .instructor-card span { color: #ffd98c; font-size: 9px; font-weight: 800; text-transform: uppercase; letter-spacing: .08em; }
-.instructor-card h3 { margin: 2px 0 3px; font-size: 16px; }
-.instructor-card p { margin: 0; color: rgba(255, 255, 255, .65); font-size: 12px; }
+.instructor-card h3 { min-height: 42px; margin: 5px 0 7px; font-size: 16px; line-height: 1.3; }
+.instructor-card p { min-height: 34px; margin: 0 0 8px; color: rgba(255, 255, 255, .76); font-size: 12px; line-height: 1.45; }
+.instructor-card small { display: block; padding-top: 9px; border-top: 1px solid rgba(255, 255, 255, .12); color: rgba(255, 255, 255, .58); font-size: 10px; line-height: 1.4; }
 
 .operations-grid { display: grid; grid-template-columns: .9fr 1.1fr; gap: 80px; align-items: start; }
 .process-list { display: grid; gap: 14px; }
@@ -275,7 +278,8 @@ legend small { color: var(--muted); font-weight: 500; }
   .hero-inner { grid-template-columns: 1fr; }
   .hero-proof-card { max-width: 520px; }
   .benefit-grid, .course-grid { grid-template-columns: repeat(2, 1fr); }
-  .instructor-layout, .operations-grid, .facility-inner, .register-grid { grid-template-columns: 1fr; gap: 45px; }
+  .operations-grid, .facility-inner, .register-grid { grid-template-columns: 1fr; gap: 45px; }
+  .instructor-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .insight-grid { grid-template-columns: 1fr; gap: 48px; }
   .insight-collage { max-width: 680px; width: 100%; margin-inline: auto; }
   .register-copy { position: static; }
@@ -311,6 +315,14 @@ legend small { color: var(--muted); font-weight: 500; }
   .hero-proof-card { display: none; }
   .split-heading { grid-template-columns: 1fr; gap: 8px; }
   .section-heading h2 { font-size: 36px; }
+  .light-heading { margin-bottom: 26px; }
+  .instructor-grid { grid-template-columns: 1fr; gap: 12px; }
+  .instructor-card { display: grid; grid-template-columns: 128px minmax(0, 1fr); align-items: stretch; }
+  .instructor-card:hover { transform: none; }
+  .instructor-photo { width: 100%; height: 100%; min-height: 158px; aspect-ratio: auto; object-position: center 25%; }
+  .instructor-card-body { min-width: 0; padding: 17px 18px; align-self: center; }
+  .instructor-card h3 { min-height: 0; margin: 5px 0 6px; font-size: 17px; }
+  .instructor-card p { min-height: 0; margin-bottom: 8px; }
   .price-grid { grid-template-columns: 1fr; }
   .price-card.featured { transform: none; }
   .price-card { padding: 22px; border-radius: 18px; }
@@ -333,6 +345,11 @@ legend small { color: var(--muted); font-weight: 500; }
   .language-switch { padding: 2px; }
   .lang-button { padding: 5px 6px; font-size: 10px; }
   .benefit-grid, .course-grid { grid-template-columns: 1fr; }
+  .instructor-card { grid-template-columns: 104px minmax(0, 1fr); }
+  .instructor-photo { min-height: 146px; object-position: center 24%; }
+  .instructor-card-body { padding: 14px; }
+  .instructor-card h3 { font-size: 15px; }
+  .instructor-card p { font-size: 11px; }
   .benefit-card { min-height: 190px; }
   .course-visual { height: 210px; }
   .filter-row { flex-wrap: nowrap; overflow-x: auto; padding-bottom: 6px; scrollbar-width: none; }

@@ -1,0 +1,11 @@
+{
+  "name": "sna-after-school",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "vite --host 127.0.0.1 --port 4173",
+    "build": "vite build && node scripts/copy-static.mjs",
+    "preview": "vite preview --host 127.0.0.1 --port 4173",
+    "test": "node --test tests/*.test.js"
+  }
+}
