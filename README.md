@@ -4,11 +4,13 @@ Static bilingual landing-page demo prepared from the SNA After School brief.
 
 The primary transparent SNA lockup and footer mark are sourced from the official SNA Marianapolis website (`snamarianapolis.edu.vn`). The earlier JPEG conversion is not used because it replaced the original alpha channel with a black background.
 
-## Generated demo imagery
+## Image sources
 
-The hero, eight activity cards and three facility concepts in `assets/generated/` were created with OpenAI ImageGen in built-in generation mode. Prompts specified Vietnamese children, a Vietnamese tropical school setting, safe age-appropriate activities and the SNA burgundy/gold visual direction. Official SNA campus and school-life images were used only as architectural and atmosphere references.
+The hero, parent-insight section, football, basketball, modern dance and all facility photographs now use images downloaded from the official SNA Marianapolis website. Their original URLs and page sources are recorded in `assets/sna-official/SOURCES.md`.
 
-These files are illustrative concepts, not documentary photographs of SNA facilities, students or staff. The interface labels them as AI illustrations; production must replace or explicitly approve them before launch.
+Vovinam, Taekwondo, Karate, festival drumming and đàn tranh still use generated illustrations because matching official SNA photography was not available. Their generation notes remain in `assets/generated/README.md`.
+
+Written approval from SNA is required before public launch, particularly for photographs featuring students.
 
 ## Demo behavior
 
@@ -36,7 +38,8 @@ Then open `http://localhost:4173`.
 
 ## Production checklist
 
-- Replace demo imagery with SNA-approved, licensed images.
+- Obtain SNA's written approval for every official photograph used on the landing page.
+- Replace or approve the five remaining generated activity illustrations.
 - Confirm logo hierarchy and the legal roles of SNA, NVH and HVE.
 - Replace sample schedules, age ranges, instructor profiles, hotline and policies.
 - Split the demo switcher into indexable `/vi/` and `/en/` routes with reciprocal `hreflang`.
