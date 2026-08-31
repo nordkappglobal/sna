@@ -112,7 +112,9 @@ function renderCourses() {
     const name = currentLang === "vi" ? course.vi : course.en;
     const age = currentLang === "vi" ? course.ageVi : course.ageEn;
     const time = currentLang === "vi" ? course.timeVi : course.timeEn;
-    const imageAlt = course.official ? `${name} tại SNA Marianapolis` : `${name} — hình ảnh minh họa`;
+    const imageAlt = currentLang === "vi"
+      ? `${name} – hoạt động dành cho học sinh`
+      : `${name} – student activity`;
     const visual = course.image
       ? `<div class="course-visual"><img src="${course.image}" alt="${imageAlt}" loading="lazy" width="600" height="400"></div>`
       : `<div class="course-visual placeholder"><span class="placeholder-mark">${course.icon}</span></div>`;
