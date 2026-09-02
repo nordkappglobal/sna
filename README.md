@@ -1,6 +1,6 @@
-# SNA After School — internal demo
+# SNA CCA — internal demo
 
-Static bilingual landing-page demo prepared from the SNA After School brief.
+Static bilingual landing-page demo prepared from the SNA CCA brief.
 
 The primary transparent SNA lockup and footer mark are sourced from the official SNA Marianapolis website (`snamarianapolis.edu.vn`). The earlier JPEG conversion is not used because it replaced the original alpha channel with a black background.
 
