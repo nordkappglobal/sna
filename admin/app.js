@@ -1,15 +1,7 @@
 // @ts-check
 /* global supabase */
 
-// Cấu hình từ Vite env hoặc có thể inject
-const SUPABASE_URL = import.meta.env?.VITE_SUPABASE_URL;
-const SUPABASE_ANON_KEY = import.meta.env?.VITE_SUPABASE_PUBLISHABLE_KEY;
-
-if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
-  throw new Error('Missing Supabase public configuration');
-}
-
-const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+let sb = null;
 
 // State
 let session = null;
@@ -43,6 +35,21 @@ const pageInfo = document.getElementById('page-info');
 
 // Init
 async function init() {
+  try {
+    const configResponse = await fetch('/api/admin/config', { cache: 'no-store' });
+    const config = await configResponse.json();
+    if (!configResponse.ok || !config.url || !config.publishableKey) {
+      throw new Error(config.error || 'supabase_auth_not_configured');
+    }
+    sb = window.supabase.createClient(config.url, config.publishableKey);
+  } catch (error) {
+    showLogin();
+    loginMessage.textContent = 'Hệ thống đăng nhập đang thiếu cấu hình. Vui lòng liên hệ quản trị viên.';
+    loginMessage.className = 'alert alert-error';
+    console.error('Admin auth configuration error:', error);
+    return;
+  }
+
   const { data } = await sb.auth.getSession();
   if (data.session) {
     session = data.session;
