@@ -10,7 +10,7 @@ for (const file of [
   "favicon-32x32.png",
   "favicon-192x192.png",
   "apple-touch-icon.png",
-  "og-sna-after-school.png"
+  "og-sna-cca.jpg"
 ]) {
   await copyFile(resolve(root, file), resolve(root, "dist", file));
 }
