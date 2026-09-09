@@ -26,7 +26,10 @@ const loadingIndicator = document.getElementById('loading-indicator');
 const filterSearch = document.getElementById('filter-search');
 const filterStatus = document.getElementById('filter-status');
 const filterActivity = document.getElementById('filter-activity');
+const filterFrom = document.getElementById('filter-from');
+const filterTo = document.getElementById('filter-to');
 const btnRefresh = document.getElementById('btn-refresh');
+const btnExport = document.getElementById('btn-export');
 
 // Pagination
 const btnPrev = document.getElementById('btn-prev-page');
@@ -112,6 +115,9 @@ function setupListeners() {
   btnRefresh.addEventListener('click', () => loadLeads(1));
   filterStatus.addEventListener('change', () => loadLeads(1));
   filterActivity.addEventListener('change', () => loadLeads(1));
+  filterFrom.addEventListener('change', () => loadLeads(1));
+  filterTo.addEventListener('change', () => loadLeads(1));
+  btnExport.addEventListener('click', () => exportExcel());
 
   let searchTimeout;
   filterSearch.addEventListener('input', () => {
@@ -167,6 +173,8 @@ async function loadLeads(page = 1) {
       activity: filterActivity.value,
       q: filterSearch.value
     });
+    if (filterFrom.value) query.set('from', filterFrom.value);
+    if (filterTo.value) query.set('to', filterTo.value);
 
     const data = await fetchAPI(`?${query.toString()}`);
     currentLeads = data.leads;
@@ -376,6 +384,101 @@ function statusName(status) {
     'unreachable': 'Không liên lạc được'
   };
   return map[status] || status;
+}
+
+
+// ── Excel Export ──────────────────────────────────────────────────────────────
+async function exportExcel() {
+  if (!session) return;
+  const originalText = btnExport.innerHTML;
+  btnExport.disabled = true;
+  btnExport.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg> Đang xuất...`;
+
+  try {
+    // Fetch ALL pages matching current filters (no pagination limit)
+    let allLeads = [];
+    let page = 1;
+    const pageSize = 200;
+
+    while (true) {
+      const query = new URLSearchParams({
+        page: page.toString(),
+        status: filterStatus.value,
+        activity: filterActivity.value,
+        q: filterSearch.value
+      });
+      if (filterFrom.value) query.set('from', filterFrom.value);
+      if (filterTo.value) query.set('to', filterTo.value);
+
+      const data = await fetchAPI(`?${query.toString()}`);
+      allLeads = allLeads.concat(data.leads || []);
+      if (allLeads.length >= data.count || (data.leads || []).length < pageSize) break;
+      page++;
+    }
+
+    if (allLeads.length === 0) {
+      alert('Không có dữ liệu để xuất với bộ lọc hiện tại.');
+      return;
+    }
+
+    // Build worksheet data
+    const headers = [
+      'Mã tham chiếu', 'Ngày đăng ký', 'Giờ đăng ký',
+      'Tên phụ huynh', 'Số điện thoại',
+      'Tên học sinh', 'Lớp',
+      'Bộ môn quan tâm', 'Khung giờ',
+      'Trạng thái', 'Người phụ trách',
+      'Ngôn ngữ', 'Lỗi Sheet', 'Ngày đồng bộ Sheet'
+    ];
+
+    const rows = allLeads.map(lead => {
+      const dt = new Date(lead.created_at);
+      return [
+        lead.reference,
+        dt.toLocaleDateString('vi-VN'),
+        dt.toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' }),
+        lead.parent_name,
+        lead.phone_raw,
+        lead.student_name,
+        lead.grade,
+        (lead.activities || []).map(a => activityName(a)).join(', '),
+        (lead.time_slots || []).join(', '),
+        statusName(lead.status),
+        lead.assigned_to || '',
+        lead.locale === 'en' ? 'Tiếng Anh' : 'Tiếng Việt',
+        lead.sheet_sync_status,
+        lead.sheet_synced_at ? new Date(lead.sheet_synced_at).toLocaleString('vi-VN') : ''
+      ];
+    });
+
+    const wsData = [headers, ...rows];
+    const ws = window.XLSX.utils.aoa_to_sheet(wsData);
+
+    // Column widths
+    ws['!cols'] = [
+      {wch:18},{wch:14},{wch:10},{wch:24},{wch:14},
+      {wch:24},{wch:8},{wch:30},{wch:16},
+      {wch:16},{wch:18},{wch:12},{wch:12},{wch:20}
+    ];
+
+    const wb = window.XLSX.utils.book_new();
+    window.XLSX.utils.book_append_sheet(wb, ws, 'Leads SNA');
+
+    // Filename: SNA_Leads_YYYY-MM-DD.xlsx
+    const today = new Date().toISOString().slice(0, 10);
+    const fromSuffix = filterFrom.value ? `_tu-${filterFrom.value}` : '';
+    const toSuffix = filterTo.value ? `_den-${filterTo.value}` : '';
+    const fileName = `SNA_Leads_${today}${fromSuffix}${toSuffix}.xlsx`;
+
+    window.XLSX.writeFile(wb, fileName);
+    console.log(`Exported ${allLeads.length} leads → ${fileName}`);
+  } catch (err) {
+    console.error('Export error:', err);
+    alert('Lỗi khi xuất file: ' + err.message);
+  } finally {
+    btnExport.disabled = false;
+    btnExport.innerHTML = originalText;
+  }
 }
 
 // Start

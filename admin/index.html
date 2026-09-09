@@ -107,8 +107,14 @@
             <option value="drums">Trống hội</option>
             <option value="zither">Đàn tranh</option>
           </select>
-          <button id="btn-refresh" class="btn btn-ghost btn-icon">
+          <input type="date" id="filter-from" title="Từ ngày" style="padding:0.4rem 0.6rem;border:1px solid var(--border);border-radius:6px;background:var(--surface);color:var(--text);font-size:0.85rem;">
+          <input type="date" id="filter-to" title="Đến ngày" style="padding:0.4rem 0.6rem;border:1px solid var(--border);border-radius:6px;background:var(--surface);color:var(--text);font-size:0.85rem;">
+          <button id="btn-refresh" class="btn btn-ghost btn-icon" title="Làm mới">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 4v6h-6"/><path d="M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+          </button>
+          <button id="btn-export" class="btn btn-outline btn-sm" title="Xuất file Excel" style="display:flex;align-items:center;gap:6px;white-space:nowrap;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Xuất Excel
           </button>
         </div>
 
@@ -154,6 +160,7 @@
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.38.4/dist/umd/supabase.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
   <script type="module" src="./app.js"></script>
 </body>
 </html>
