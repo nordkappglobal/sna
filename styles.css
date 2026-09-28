@@ -390,10 +390,19 @@ legend small { color: var(--muted); font-weight: 500; }
   .price-card > strong { margin: 10px 0 4px; font-size: 39px; }
   .price-card p { min-height: 0; margin: 4px 0; }
   .price-card ul { margin-top: 14px; padding-top: 14px; }
-  .fee-table-wrap { margin-inline: -14px; border-radius: 12px; }
-  .fee-table-wrap table { min-width: 640px; }
-  .fee-table-monthly table { min-width: 560px; }
-  th, td { padding: 14px 15px; }
+  .fee-table-wrap { margin: 24px 0 0; overflow: visible; border: 0; border-radius: 0; background: transparent; }
+  .fee-table-course { margin-top: 28px; }
+  .fee-table-wrap table, .fee-table-wrap thead, .fee-table-wrap tbody, .fee-table-wrap tr, .fee-table-wrap td { width: 100%; display: block; }
+  .fee-table-wrap table { background: transparent; }
+  .fee-table-wrap caption { padding: 0 2px 12px; color: var(--burgundy); background: transparent; font-size: 14px; font-weight: 800; }
+  .fee-table-wrap thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  .fee-table-wrap tbody { display: grid; gap: 12px; }
+  .fee-table-wrap tr { overflow: hidden; border: 1px solid var(--line); border-radius: 15px; background: #fff; box-shadow: 0 8px 24px rgba(60, 23, 34, .06); }
+  .fee-table-wrap td, .fee-table-wrap td:first-child { min-height: 47px; position: static; padding: 11px 14px; display: flex; justify-content: space-between; align-items: center; gap: 20px; border-top: 1px solid var(--line); background: #fff; text-align: right; white-space: normal; font-size: 12px; }
+  .fee-table-wrap td:first-child { min-height: 56px; color: var(--burgundy); border-top: 0; background: var(--burgundy-soft); font-weight: 800; text-align: right; }
+  .fee-table-wrap td::before { content: attr(data-label); max-width: 48%; flex: 0 0 auto; color: var(--muted); font-size: 9px; font-weight: 800; line-height: 1.35; text-align: left; text-transform: uppercase; letter-spacing: .04em; }
+  .fee-table-wrap td:first-child::before { color: var(--burgundy); }
+  .fee-note { padding: 12px 14px; border-radius: 10px; background: var(--gold-soft); }
   .facility-gallery { grid-template-columns: 1fr; }
   .facility-gallery figure, .facility-gallery figure:first-child { min-height: 230px; grid-row: auto; }
   .form-grid { grid-template-columns: 1fr; }
