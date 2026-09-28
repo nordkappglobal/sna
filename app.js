@@ -4,7 +4,7 @@ const content = {
   vi: {
     skip: "Bỏ qua đến nội dung chính", demoBadge: "THÔNG TIN ĐANG CẬP NHẬT", demoNote: "Lịch học, học phí và một số thông tin chương trình sẽ được cập nhật sau khi có xác nhận chính thức.", openMenu: "Mở menu", partnerLabel: "Phối hợp triển khai",
     navProgram: "Chương trình", navActivities: "Môn học", navFees: "Học phí", navInstructors: "Giảng viên", navFaq: "Câu hỏi thường gặp", navRegister: "Đăng ký miễn phí",
-    heroEyebrow: "TRẢI NGHIỆM MIỄN PHÍ · 02/10–16/10/2026", heroTitle: "Khơi mở năng khiếu.<br>Rèn luyện bản lĩnh.<br><span>Phát triển toàn diện.</span>", heroDescription: "Hai tuần trải nghiệm thể thao, võ thuật và nghệ thuật tại SNA. Học vào Thứ Ba và Thứ Sáu, từ 15:30 đến 16:30.",
+    heroEyebrow: "TRẢI NGHIỆM MIỄN PHÍ TỪ 02/10 ĐẾN 16/10/2026", heroTitle: "Khơi mở năng khiếu.<br>Rèn luyện bản lĩnh.<br><span>Phát triển toàn diện.</span>", heroDescription: "Hai tuần trải nghiệm thể thao, võ thuật và nghệ thuật tại SNA. Học vào Thứ Ba và Thứ Sáu, từ 15:30 đến 16:30.",
     primaryCta: "Đăng ký xếp lớp trải nghiệm miễn phí", secondaryCta: "Xem đầu ra 8 bộ môn", trustActivities: "tuần trải nghiệm miễn phí", trustGroups: "15:30–16:30", trustSaving: "bộ môn để khám phá",
     proofKicker: "THÔNG TIN TRẢI NGHIỆM", proofTitle: "Đăng ký sớm để được ưu tiên xếp lớp", proof1: "Miễn phí 100% từ 02/10 đến 16/10/2026", proof2: "Thứ Ba và Thứ Sáu · 15:30–16:30", proof3: "Số lượng học sinh ở mỗi môn có giới hạn", proofDemo: "Đăng ký sớm đến hết 29/09/2026, ưu tiên theo thứ tự đăng ký.",
     earlyRegistrationOpen: "Đăng ký sớm đến hết 29/09/2026, ưu tiên theo thứ tự đăng ký.", earlyRegistrationClosed: "Đăng ký ngay – lớp trải nghiệm được xếp theo tình trạng chỗ trống.",
@@ -25,7 +25,7 @@ const content = {
   en: {
     skip: "Skip to main content", demoBadge: "INFORMATION BEING UPDATED", demoNote: "Schedules, fees and selected program details will be updated after official confirmation.", openMenu: "Open menu", partnerLabel: "In collaboration with",
     navProgram: "Program", navActivities: "Activities", navFees: "Fees", navInstructors: "Instructors", navFaq: "FAQ", navRegister: "Register free",
-    heroEyebrow: "FREE TRIAL · 2–16 OCTOBER 2026", heroTitle: "Unlock potential.<br>Build confidence.<br><span>Grow holistically.</span>", heroDescription: "Two weeks of sports, martial arts and performing arts experiences at SNA, every Tuesday and Friday from 3:30 to 4:30 PM.",
+    heroEyebrow: "FREE TRIAL FROM 2 TO 16 OCTOBER 2026", heroTitle: "Unlock potential.<br>Build confidence.<br><span>Grow holistically.</span>", heroDescription: "Two weeks of sports, martial arts and performing arts experiences at SNA, every Tuesday and Friday from 3:30 to 4:30 PM.",
     primaryCta: "Register for a free trial class", secondaryCta: "Explore outcomes for 8 activities", trustActivities: "weeks of free trial classes", trustGroups: "3:30–4:30 PM", trustSaving: "activities to explore",
     proofKicker: "FREE TRIAL DETAILS", proofTitle: "Register early for priority class placement", proof1: "100% free from 2 to 16 October 2026", proof2: "Tuesdays and Fridays · 3:30–4:30 PM", proof3: "Places are limited for each activity", proofDemo: "Early registration closes on 29 September 2026. Places are allocated in registration order.",
     earlyRegistrationOpen: "Early registration closes on 29 September 2026. Places are allocated in registration order.", earlyRegistrationClosed: "Register now – trial classes are allocated subject to availability.",
