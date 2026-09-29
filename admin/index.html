@@ -8,7 +8,6 @@
   <link rel="icon" href="/favicon.ico" sizes="any">
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-  <link rel="stylesheet" href="../styles.css">
   <link rel="stylesheet" href="./styles.css">
 </head>
 <body>
@@ -125,6 +124,16 @@
           <!-- Desktop Table -->
           <div class="table-responsive desktop-only">
             <table class="leads-table">
+              <colgroup>
+                <col class="col-reference">
+                <col class="col-student">
+                <col class="col-parent">
+                <col class="col-phone">
+                <col class="col-activities">
+                <col class="col-status">
+                <col class="col-date">
+                <col class="col-actions">
+              </colgroup>
               <thead>
                 <tr>
                   <th>Mã</th>
@@ -160,7 +169,6 @@
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.38.4/dist/umd/supabase.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
   <script type="module" src="./app.js"></script>
 </body>
 </html>

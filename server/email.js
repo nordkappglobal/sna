@@ -1,7 +1,14 @@
 const { Resend } = require("resend");
 
 function isEmailConfigured() {
-  return Boolean(process.env.RESEND_API_KEY && process.env.LEAD_EMAIL_FROM && process.env.LEAD_NOTIFICATION_TO);
+  return Boolean(process.env.RESEND_API_KEY && process.env.LEAD_EMAIL_FROM);
+}
+
+function configuredRecipients() {
+  return String(process.env.LEAD_NOTIFICATION_TO || "")
+    .split(",")
+    .map((item) => item.trim())
+    .filter(Boolean);
 }
 
 function escapeHtml(value) {
@@ -30,10 +37,11 @@ function emailContent(lead) {
   return { html, text };
 }
 
-async function sendLeadEmail(lead) {
+async function sendLeadEmail(lead, recipients = configuredRecipients()) {
   if (!isEmailConfigured()) throw new Error("email_not_configured");
+  const to = Array.from(new Set(recipients.map((item) => String(item).trim()).filter(Boolean)));
+  if (!to.length) throw new Error("email_recipient_not_configured");
   const resend = new Resend(process.env.RESEND_API_KEY);
-  const to = process.env.LEAD_NOTIFICATION_TO.split(",").map((item) => item.trim()).filter(Boolean);
   const { html, text } = emailContent(lead);
   const subject = `[SNA][LEAD MỚI] ${lead.reference} – ${lead.parent_name} – ${lead.phone_raw}`;
   const { data, error } = await resend.emails.send({
@@ -47,4 +55,4 @@ async function sendLeadEmail(lead) {
   return data;
 }
 
-module.exports = { isEmailConfigured, escapeHtml, emailContent, sendLeadEmail };
+module.exports = { isEmailConfigured, configuredRecipients, escapeHtml, emailContent, sendLeadEmail };

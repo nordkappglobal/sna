@@ -1,5 +1,5 @@
 const { isGoogleConfigured, syncLeadToSheet } = require("./google-sheet");
-const { isEmailConfigured, sendLeadEmail } = require("./email");
+const { isEmailConfigured, configuredRecipients, sendLeadEmail } = require("./email");
 
 async function createJob(supabase, leadId, channel, action) {
   const { data, error } = await supabase.from("integration_jobs").insert({
@@ -44,11 +44,20 @@ async function runEmailSend(supabase, lead, action = "create") {
   const jobId = await createJob(supabase, lead.id, "email", action);
   if (!isEmailConfigured()) {
     await finishJob(supabase, jobId, "failed", "email_not_configured");
-    await supabase.from("leads").update({ email_status: "skipped", email_error: "email_not_configured" }).eq("id", lead.id);
+    await supabase.from("leads").update({ email_status: "failed", email_error: "email_not_configured" }).eq("id", lead.id);
     return { ok: false, skipped: true };
   }
   try {
-    const result = await sendLeadEmail(lead);
+    let recipients = configuredRecipients();
+    if (!recipients.length) {
+      const { data: admins, error: adminError } = await supabase
+        .from("admin_users")
+        .select("email")
+        .eq("active", true);
+      if (adminError) throw adminError;
+      recipients = (admins || []).map((admin) => admin.email).filter(Boolean);
+    }
+    const result = await sendLeadEmail(lead, recipients);
     await finishJob(supabase, jobId, "success");
     await supabase.from("leads").update({ email_status: "success", email_sent_at: new Date().toISOString(), email_error: null }).eq("id", lead.id);
     return { ok: true, result };

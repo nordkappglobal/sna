@@ -241,13 +241,15 @@ function renderLeads() {
           <option value="not_interested" ${lead.status === 'not_interested' ? 'selected' : ''}>Không quan tâm</option>
           <option value="unreachable" ${lead.status === 'unreachable' ? 'selected' : ''}>Không liên lạc được</option>
         </select>
-        ${lead.sheet_sync_status === 'failed' ? '<span title="Lỗi Sheet" class="text-red">⚠️</span>' : ''}
+        ${lead.sheet_sync_status === 'failed' ? '<span title="Lỗi đồng bộ Google Sheet" class="text-red">Sheet lỗi</span>' : ''}
+        ${lead.email_status === 'failed' ? '<span title="Email chưa gửi được" class="text-red">Email lỗi</span>' : ''}
       </td>
       <td>${new Date(lead.created_at).toLocaleDateString('vi-VN')}</td>
       <td>
         <div class="action-buttons">
           <button class="btn btn-outline btn-sm btn-delete" data-id="${lead.id}">Xóa</button>
-          ${lead.sheet_sync_status === 'failed' ? `<button class="btn btn-outline btn-sm btn-retry" data-id="${lead.id}">Retry</button>` : ''}
+          ${lead.sheet_sync_status === 'failed' ? `<button class="btn btn-outline btn-sm btn-retry-sheet" data-id="${lead.id}">Gửi lại Sheet</button>` : ''}
+          ${lead.email_status === 'failed' ? `<button class="btn btn-outline btn-sm btn-retry-email" data-id="${lead.id}">Gửi lại email</button>` : ''}
         </div>
       </td>
     `;
@@ -271,6 +273,12 @@ function renderLeads() {
       <div class="tag-list" style="margin-top: 0.5rem">
         ${(lead.activities || []).map(a => `<span class="tag">${activityName(a)}</span>`).join('')}
       </div>
+      ${lead.sheet_sync_status === 'failed' || lead.email_status === 'failed' ? `
+        <div class="integration-errors">
+          ${lead.sheet_sync_status === 'failed' ? '<span class="text-red">Google Sheet chưa đồng bộ</span>' : ''}
+          ${lead.email_status === 'failed' ? '<span class="text-red">Email chưa gửi được</span>' : ''}
+        </div>
+      ` : ''}
       <div class="lead-card-actions">
         <select class="status-select" data-id="${lead.id}" data-original="${lead.status}" style="padding: 0.25rem; font-size: 0.75rem;">
           <option value="new" ${lead.status === 'new' ? 'selected' : ''}>Mới</option>
@@ -282,6 +290,8 @@ function renderLeads() {
           <option value="unreachable" ${lead.status === 'unreachable' ? 'selected' : ''}>Không liên lạc được</option>
         </select>
         <button class="btn btn-outline btn-sm btn-delete" data-id="${lead.id}">Xóa</button>
+        ${lead.sheet_sync_status === 'failed' ? `<button class="btn btn-outline btn-sm btn-retry-sheet" data-id="${lead.id}">Gửi lại Sheet</button>` : ''}
+        ${lead.email_status === 'failed' ? `<button class="btn btn-outline btn-sm btn-retry-email" data-id="${lead.id}">Gửi lại email</button>` : ''}
       </div>
     `;
     mobileList.appendChild(card);
@@ -301,8 +311,11 @@ function renderLeads() {
   document.querySelectorAll('.btn-delete').forEach(btn => {
     btn.addEventListener('click', (e) => deleteLead(e.target.dataset.id));
   });
-  document.querySelectorAll('.btn-retry').forEach(btn => {
+  document.querySelectorAll('.btn-retry-sheet').forEach(btn => {
     btn.addEventListener('click', (e) => retrySheet(e.target.dataset.id));
+  });
+  document.querySelectorAll('.btn-retry-email').forEach(btn => {
+    btn.addEventListener('click', (e) => retryEmail(e.target.dataset.id));
   });
 }
 
@@ -343,6 +356,20 @@ async function retrySheet(id) {
     loadLeads(currentPage);
   } catch (err) {
     alert('Lỗi retry: ' + err.message);
+  }
+}
+
+async function retryEmail(id) {
+  try {
+    await fetchAPI('/', {
+      method: 'POST',
+      body: JSON.stringify({ id, action: 'retry-email' })
+    });
+    alert('Email thông báo lead đã được gửi lại');
+    loadLeads(currentPage);
+  } catch (err) {
+    alert('Chưa gửi được email: ' + err.message);
+    loadLeads(currentPage);
   }
 }
 
@@ -388,6 +415,23 @@ function statusName(status) {
 
 
 // ── Excel Export ──────────────────────────────────────────────────────────────
+let excelLibraryPromise;
+
+function loadExcelLibrary() {
+  if (window.XLSX) return Promise.resolve(window.XLSX);
+  if (!excelLibraryPromise) {
+    excelLibraryPromise = new Promise((resolve, reject) => {
+      const script = document.createElement('script');
+      script.src = 'https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js';
+      script.async = true;
+      script.onload = () => resolve(window.XLSX);
+      script.onerror = () => reject(new Error('Không tải được thư viện xuất Excel'));
+      document.head.appendChild(script);
+    });
+  }
+  return excelLibraryPromise;
+}
+
 async function exportExcel() {
   if (!session) return;
   const originalText = btnExport.innerHTML;
@@ -398,7 +442,7 @@ async function exportExcel() {
     // Fetch ALL pages matching current filters (no pagination limit)
     let allLeads = [];
     let page = 1;
-    const pageSize = 200;
+    const pageSize = 25;
 
     while (true) {
       const query = new URLSearchParams({
@@ -420,6 +464,10 @@ async function exportExcel() {
       alert('Không có dữ liệu để xuất với bộ lọc hiện tại.');
       return;
     }
+
+    // XLSX is intentionally loaded only when exporting so it cannot slow down
+    // the admin dashboard's initial render.
+    await loadExcelLibrary();
 
     // Build worksheet data
     const headers = [

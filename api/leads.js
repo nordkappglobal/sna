@@ -2,6 +2,7 @@ const { createServerClient } = require("../server/supabase");
 const { normalizeLeadInput, createReference } = require("../server/validation");
 const { parseBody, sendJson, errorCode } = require("../server/http");
 const { runSheetSync, runEmailSend } = require("../server/integrations");
+const { waitUntil } = require("@vercel/functions");
 
 const MAX_BODY_BYTES = 12_000;
 
@@ -54,10 +55,21 @@ module.exports = async function handler(request, response) {
     if (!lead) throw new Error("reference_generation_failed");
 
     await supabase.from("lead_events").insert({ lead_id: lead.id, event_type: "created", changes: { source: "SNA" } });
-    await Promise.allSettled([
+    const integrations = Promise.allSettled([
       runSheetSync(supabase, lead, "create"),
       runEmailSend(supabase, lead, "create")
-    ]);
+    ]).then((results) => {
+      results.forEach((result, index) => {
+        if (result.status === "rejected") {
+          const channel = index === 0 ? "google_sheet" : "email";
+          console.error(`[lead:${lead.reference}] ${channel}_integration_failed`, result.reason);
+        }
+      });
+    });
+
+    // Persisting the lead is the only work that blocks the parent's response.
+    // Vercel keeps the function alive so Sheet/email integrations can finish safely.
+    waitUntil(integrations);
 
     return sendJson(response, 201, { ok: true, reference: lead.reference });
   } catch (error) {

@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.112.4",
+    "@vercel/functions": "^3.9.9",
     "dotenv": "^17.4.2",
     "googleapis": "^176.0.0",
     "resend": "^6.25.0",
