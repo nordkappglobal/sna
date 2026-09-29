@@ -1,7 +1,10 @@
 const { Resend } = require("resend");
 
 function isEmailConfigured() {
-  return Boolean(process.env.RESEND_API_KEY && process.env.LEAD_EMAIL_FROM);
+  return Boolean(
+    (process.env.GOOGLE_APPS_SCRIPT_WEBHOOK_URL && process.env.GOOGLE_APPS_SCRIPT_WEBHOOK_SECRET)
+    || (process.env.RESEND_API_KEY && process.env.LEAD_EMAIL_FROM)
+  );
 }
 
 function configuredRecipients() {
@@ -41,9 +44,36 @@ async function sendLeadEmail(lead, recipients = configuredRecipients()) {
   if (!isEmailConfigured()) throw new Error("email_not_configured");
   const to = Array.from(new Set(recipients.map((item) => String(item).trim()).filter(Boolean)));
   if (!to.length) throw new Error("email_recipient_not_configured");
-  const resend = new Resend(process.env.RESEND_API_KEY);
   const { html, text } = emailContent(lead);
   const subject = `[SNA][LEAD MỚI] ${lead.reference} – ${lead.parent_name} – ${lead.phone_raw}`;
+
+  if (process.env.GOOGLE_APPS_SCRIPT_WEBHOOK_URL && process.env.GOOGLE_APPS_SCRIPT_WEBHOOK_SECRET) {
+    const response = await fetch(process.env.GOOGLE_APPS_SCRIPT_WEBHOOK_URL, {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({
+        secret: process.env.GOOGLE_APPS_SCRIPT_WEBHOOK_SECRET,
+        leadId: lead.id,
+        reference: lead.reference,
+        to,
+        subject,
+        html,
+        text
+      }),
+      signal: AbortSignal.timeout(20_000)
+    });
+    const raw = await response.text();
+    let result;
+    try {
+      result = JSON.parse(raw);
+    } catch (_error) {
+      throw new Error(`google_mail_invalid_response_${response.status}`);
+    }
+    if (!response.ok || !result.ok) throw new Error(result.error || `google_mail_failed_${response.status}`);
+    return { provider: "google_apps_script", ...result };
+  }
+
+  const resend = new Resend(process.env.RESEND_API_KEY);
   const { data, error } = await resend.emails.send({
     from: process.env.LEAD_EMAIL_FROM,
     to,
@@ -52,7 +82,7 @@ async function sendLeadEmail(lead, recipients = configuredRecipients()) {
     text
   }, { headers: { "Idempotency-Key": `sna-lead-${lead.id}` } });
   if (error) throw new Error(error.message || "email_send_failed");
-  return data;
+  return { provider: "resend", ...data };
 }
 
 module.exports = { isEmailConfigured, configuredRecipients, escapeHtml, emailContent, sendLeadEmail };
