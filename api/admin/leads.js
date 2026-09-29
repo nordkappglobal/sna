@@ -2,6 +2,7 @@ const { requireAdmin } = require("../../server/auth");
 const { adminPatchSchema, normalizePhone, sanitizeSearch, STATUSES, ACTIVITIES } = require("../../server/validation");
 const { parseBody, sendJson, errorCode } = require("../../server/http");
 const { runSheetSync, runEmailSend } = require("../../server/integrations");
+const { waitUntil } = require("@vercel/functions");
 
 const PAGE_SIZE = 25;
 
@@ -20,7 +21,7 @@ async function summary(supabase) {
     countQuery(supabase, (q) => q.eq("status", "consulting")),
     countQuery(supabase, (q) => q.not("next_follow_up_at", "is", null).lte("next_follow_up_at", now.toISOString())),
     countQuery(supabase, (q) => q.eq("status", "enrolled")),
-    countQuery(supabase, (q) => q.or("sheet_sync_status.eq.failed,email_status.eq.failed"))
+    countQuery(supabase, (q) => q.or("sheet_sync_status.eq.failed,email_status.eq.failed,email_status.eq.skipped"))
   ]);
   return { today, consulting, followUp, enrolled, syncErrors };
 }
@@ -88,6 +89,30 @@ async function deleteLead(request, response, context) {
 
 async function postAction(request, response, context) {
   const body = parseBody(request);
+  if (body.action === "retry-unsent-emails") {
+    const { data: leads, error } = await context.supabase
+      .from("leads")
+      .select("*")
+      .in("email_status", ["failed", "skipped"])
+      .is("deleted_at", null)
+      .order("created_at", { ascending: true })
+      .limit(100);
+    if (error) throw error;
+
+    const queue = async () => {
+      // Keep concurrency conservative for transactional email provider limits.
+      const pending = [...(leads || [])];
+      const workers = Array.from({ length: Math.min(2, pending.length) }, async () => {
+        while (pending.length) {
+          const lead = pending.shift();
+          await runEmailSend(context.supabase, lead, "retry");
+        }
+      });
+      await Promise.all(workers);
+    };
+    waitUntil(queue());
+    return sendJson(response, 202, { ok: true, scheduled: (leads || []).length });
+  }
   if (!body.id || !["restore", "retry-sheet", "retry-email"].includes(body.action)) return sendJson(response, 400, { ok: false, error: "invalid_action" });
   let { data: lead, error } = await context.supabase.from("leads").select("*").eq("id", body.id).single();
   if (error) throw error;

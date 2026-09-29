@@ -30,6 +30,7 @@ const filterFrom = document.getElementById('filter-from');
 const filterTo = document.getElementById('filter-to');
 const btnRefresh = document.getElementById('btn-refresh');
 const btnExport = document.getElementById('btn-export');
+const btnRetryEmails = document.getElementById('btn-retry-emails');
 
 // Pagination
 const btnPrev = document.getElementById('btn-prev-page');
@@ -118,6 +119,7 @@ function setupListeners() {
   filterFrom.addEventListener('change', () => loadLeads(1));
   filterTo.addEventListener('change', () => loadLeads(1));
   btnExport.addEventListener('click', () => exportExcel());
+  btnRetryEmails.addEventListener('click', () => retryUnsentEmails());
 
   let searchTimeout;
   filterSearch.addEventListener('input', () => {
@@ -242,14 +244,14 @@ function renderLeads() {
           <option value="unreachable" ${lead.status === 'unreachable' ? 'selected' : ''}>Không liên lạc được</option>
         </select>
         ${lead.sheet_sync_status === 'failed' ? '<span title="Lỗi đồng bộ Google Sheet" class="text-red">Sheet lỗi</span>' : ''}
-        ${lead.email_status === 'failed' ? '<span title="Email chưa gửi được" class="text-red">Email lỗi</span>' : ''}
+        ${['failed', 'skipped'].includes(lead.email_status) ? '<span title="Email chưa gửi được" class="text-red">Email chưa gửi</span>' : ''}
       </td>
       <td>${new Date(lead.created_at).toLocaleDateString('vi-VN')}</td>
       <td>
         <div class="action-buttons">
           <button class="btn btn-outline btn-sm btn-delete" data-id="${lead.id}">Xóa</button>
           ${lead.sheet_sync_status === 'failed' ? `<button class="btn btn-outline btn-sm btn-retry-sheet" data-id="${lead.id}">Gửi lại Sheet</button>` : ''}
-          ${lead.email_status === 'failed' ? `<button class="btn btn-outline btn-sm btn-retry-email" data-id="${lead.id}">Gửi lại email</button>` : ''}
+          ${['failed', 'skipped'].includes(lead.email_status) ? `<button class="btn btn-outline btn-sm btn-retry-email" data-id="${lead.id}">Gửi lại email</button>` : ''}
         </div>
       </td>
     `;
@@ -273,10 +275,10 @@ function renderLeads() {
       <div class="tag-list" style="margin-top: 0.5rem">
         ${(lead.activities || []).map(a => `<span class="tag">${activityName(a)}</span>`).join('')}
       </div>
-      ${lead.sheet_sync_status === 'failed' || lead.email_status === 'failed' ? `
+      ${lead.sheet_sync_status === 'failed' || ['failed', 'skipped'].includes(lead.email_status) ? `
         <div class="integration-errors">
           ${lead.sheet_sync_status === 'failed' ? '<span class="text-red">Google Sheet chưa đồng bộ</span>' : ''}
-          ${lead.email_status === 'failed' ? '<span class="text-red">Email chưa gửi được</span>' : ''}
+          ${['failed', 'skipped'].includes(lead.email_status) ? '<span class="text-red">Email chưa gửi được</span>' : ''}
         </div>
       ` : ''}
       <div class="lead-card-actions">
@@ -291,7 +293,7 @@ function renderLeads() {
         </select>
         <button class="btn btn-outline btn-sm btn-delete" data-id="${lead.id}">Xóa</button>
         ${lead.sheet_sync_status === 'failed' ? `<button class="btn btn-outline btn-sm btn-retry-sheet" data-id="${lead.id}">Gửi lại Sheet</button>` : ''}
-        ${lead.email_status === 'failed' ? `<button class="btn btn-outline btn-sm btn-retry-email" data-id="${lead.id}">Gửi lại email</button>` : ''}
+        ${['failed', 'skipped'].includes(lead.email_status) ? `<button class="btn btn-outline btn-sm btn-retry-email" data-id="${lead.id}">Gửi lại email</button>` : ''}
       </div>
     `;
     mobileList.appendChild(card);
@@ -370,6 +372,28 @@ async function retryEmail(id) {
   } catch (err) {
     alert('Chưa gửi được email: ' + err.message);
     loadLeads(currentPage);
+  }
+}
+
+async function retryUnsentEmails() {
+  if (!confirm('Gửi lại email cho toàn bộ lead đang ở trạng thái chưa gửi?')) return;
+  const originalText = btnRetryEmails.textContent;
+  btnRetryEmails.disabled = true;
+  btnRetryEmails.textContent = 'Đang xếp hàng...';
+  try {
+    const result = await fetchAPI('/', {
+      method: 'POST',
+      body: JSON.stringify({ action: 'retry-unsent-emails' })
+    });
+    alert(result.scheduled
+      ? `Đã xếp hàng gửi bù ${result.scheduled} email. Trạng thái sẽ được cập nhật sau ít phút.`
+      : 'Không có email nào cần gửi bù.');
+    loadLeads(currentPage);
+  } catch (err) {
+    alert('Chưa thể xếp hàng gửi bù: ' + err.message);
+  } finally {
+    btnRetryEmails.disabled = false;
+    btnRetryEmails.textContent = originalText;
   }
 }
 
