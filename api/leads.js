@@ -55,17 +55,21 @@ module.exports = async function handler(request, response) {
     if (!lead) throw new Error("reference_generation_failed");
 
     await supabase.from("lead_events").insert({ lead_id: lead.id, event_type: "created", changes: { source: "SNA" } });
-    const integrations = Promise.allSettled([
-      runSheetSync(supabase, lead, "create"),
-      runEmailSend(supabase, lead, "create")
-    ]).then((results) => {
-      results.forEach((result, index) => {
-        if (result.status === "rejected") {
-          const channel = index === 0 ? "google_sheet" : "email";
-          console.error(`[lead:${lead.reference}] ${channel}_integration_failed`, result.reason);
+    const integrations = runSheetSync(supabase, lead, "create")
+      .then(async (sheetResult) => {
+        if (!sheetResult.ok) {
+          console.error(`[lead:${lead.reference}] google_sheet_integration_failed`, sheetResult.error || "sheet_sync_failed");
+          return { sheet: sheetResult, email: { ok: false, skipped: true, reason: "sheet_sync_required" } };
         }
+        const emailResult = await runEmailSend(supabase, lead, "create");
+        if (!emailResult.ok) {
+          console.error(`[lead:${lead.reference}] email_integration_failed`, emailResult.error || "email_send_failed");
+        }
+        return { sheet: sheetResult, email: emailResult };
+      })
+      .catch((error) => {
+        console.error(`[lead:${lead.reference}] integration_pipeline_failed`, error);
       });
-    });
 
     // Persisting the lead is the only work that blocks the parent's response.
     // Vercel keeps the function alive so Sheet/email integrations can finish safely.
