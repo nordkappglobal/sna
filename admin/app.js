@@ -1,5 +1,5 @@
 // @ts-check
-/* global supabase */
+import { createClient } from '@supabase/supabase-js';
 
 let sb = null;
 
@@ -45,7 +45,7 @@ async function init() {
     if (!configResponse.ok || !config.url || !config.publishableKey) {
       throw new Error(config.error || 'supabase_auth_not_configured');
     }
-    sb = window.supabase.createClient(config.url, config.publishableKey);
+    sb = createClient(config.url, config.publishableKey);
   } catch (error) {
     showLogin();
     loginMessage.textContent = 'Hệ thống đăng nhập đang thiếu cấu hình. Vui lòng liên hệ quản trị viên.';
@@ -240,11 +240,13 @@ function renderLeads() {
           <option value="consulting" ${lead.status === 'consulting' ? 'selected' : ''}>Đang tư vấn</option>
           <option value="qualified" ${lead.status === 'qualified' ? 'selected' : ''}>Tiềm năng</option>
           <option value="enrolled" ${lead.status === 'enrolled' ? 'selected' : ''}>Đã đăng ký</option>
+          <option value="paid" ${lead.status === 'paid' ? 'selected' : ''}>Đã đóng học phí</option>
           <option value="not_interested" ${lead.status === 'not_interested' ? 'selected' : ''}>Không quan tâm</option>
           <option value="unreachable" ${lead.status === 'unreachable' ? 'selected' : ''}>Không liên lạc được</option>
         </select>
         ${lead.sheet_sync_status === 'failed' ? '<span title="Lỗi đồng bộ Google Sheet" class="text-red">Sheet lỗi</span>' : ''}
-        ${['failed', 'skipped'].includes(lead.email_status) ? '<span title="Email chưa gửi được" class="text-red">Email chưa gửi</span>' : ''}
+        ${lead.email_status === 'failed' ? '<span title="Email gửi lỗi" class="text-red">Email lỗi</span>' : ''}
+        ${lead.email_status === 'skipped' ? '<span title="Lead cũ được tạo trước khi bật email" class="text-muted">Email cũ chưa gửi</span>' : ''}
       </td>
       <td>${new Date(lead.created_at).toLocaleDateString('vi-VN')}</td>
       <td>
@@ -278,7 +280,8 @@ function renderLeads() {
       ${lead.sheet_sync_status === 'failed' || ['failed', 'skipped'].includes(lead.email_status) ? `
         <div class="integration-errors">
           ${lead.sheet_sync_status === 'failed' ? '<span class="text-red">Google Sheet chưa đồng bộ</span>' : ''}
-          ${['failed', 'skipped'].includes(lead.email_status) ? '<span class="text-red">Email chưa gửi được</span>' : ''}
+          ${lead.email_status === 'failed' ? '<span class="text-red">Email gửi lỗi</span>' : ''}
+          ${lead.email_status === 'skipped' ? '<span class="text-muted">Email cũ chưa gửi</span>' : ''}
         </div>
       ` : ''}
       <div class="lead-card-actions">
@@ -288,6 +291,7 @@ function renderLeads() {
           <option value="consulting" ${lead.status === 'consulting' ? 'selected' : ''}>Đang tư vấn</option>
           <option value="qualified" ${lead.status === 'qualified' ? 'selected' : ''}>Tiềm năng</option>
           <option value="enrolled" ${lead.status === 'enrolled' ? 'selected' : ''}>Đã đăng ký</option>
+          <option value="paid" ${lead.status === 'paid' ? 'selected' : ''}>Đã đóng học phí</option>
           <option value="not_interested" ${lead.status === 'not_interested' ? 'selected' : ''}>Không quan tâm</option>
           <option value="unreachable" ${lead.status === 'unreachable' ? 'selected' : ''}>Không liên lạc được</option>
         </select>
@@ -431,6 +435,7 @@ function statusName(status) {
     'consulting': 'Đang tư vấn',
     'qualified': 'Tiềm năng',
     'enrolled': 'Đã đăng ký',
+    'paid': 'Đã đóng học phí',
     'not_interested': 'Không quan tâm',
     'unreachable': 'Không liên lạc được'
   };

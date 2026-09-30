@@ -541,10 +541,13 @@ body::after {
 .status-badge.qualified::before { background: currentColor; }
 .status-badge.enrolled { background: var(--status-enrolled); color: var(--status-enrolled-text); }
 .status-badge.enrolled::before { background: currentColor; }
+.status-badge.paid { background: linear-gradient(135deg, rgba(220, 252, 231, .95), rgba(254, 249, 195, .9)); color: #166534; }
+.status-badge.paid::before { background: #ca8a04; }
 .status-badge.not_interested { background: var(--status-dropped); color: var(--status-dropped-text); }
 .status-badge.not_interested::before { background: currentColor; }
 .status-badge.unreachable { background: rgba(226, 232, 240, .9); color: #475569; }
 .status-badge.unreachable::before { background: currentColor; }
+.text-muted { color: #64748b; font-size: .75rem; }
 
 .tag-list {
   display: flex;

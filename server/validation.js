@@ -3,7 +3,7 @@ const { z } = require("zod");
 
 const ACTIVITIES = ["football", "basketball", "dance", "vovinam", "taekwondo", "karate", "drums", "zither"];
 const TIME_SLOTS = ["weekday", "weekend", "flexible"];
-const STATUSES = ["new", "contacted", "consulting", "qualified", "enrolled", "not_interested", "unreachable"];
+const STATUSES = ["new", "contacted", "consulting", "qualified", "enrolled", "paid", "not_interested", "unreachable"];
 const GRADES = Array.from({ length: 12 }, (_, index) => `Lớp ${index + 1}`);
 
 const cleanText = (max) => z.string().trim().min(2).max(max);

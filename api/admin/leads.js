@@ -1,10 +1,13 @@
 const { requireAdmin } = require("../../server/auth");
 const { adminPatchSchema, normalizePhone, sanitizeSearch, STATUSES, ACTIVITIES } = require("../../server/validation");
 const { parseBody, sendJson, errorCode } = require("../../server/http");
-const { runSheetSync, runEmailSend } = require("../../server/integrations");
-const { waitUntil } = require("@vercel/functions");
-
 const PAGE_SIZE = 25;
+
+// Integration SDKs (notably googleapis) are intentionally loaded only for
+// mutations. Keeping them out of the GET path reduces admin cold-start time.
+function integrations() {
+  return require("../../server/integrations");
+}
 
 async function countQuery(supabase, apply) {
   let query = supabase.from("leads").select("id", { count: "exact", head: true }).is("deleted_at", null);
@@ -20,8 +23,10 @@ async function summary(supabase) {
     countQuery(supabase, (q) => q.gte("created_at", start)),
     countQuery(supabase, (q) => q.eq("status", "consulting")),
     countQuery(supabase, (q) => q.not("next_follow_up_at", "is", null).lte("next_follow_up_at", now.toISOString())),
-    countQuery(supabase, (q) => q.eq("status", "enrolled")),
-    countQuery(supabase, (q) => q.or("sheet_sync_status.eq.failed,email_status.eq.failed,email_status.eq.skipped"))
+    countQuery(supabase, (q) => q.in("status", ["enrolled", "paid"])),
+    // "skipped" is retained on historic leads created before email was
+    // configured. It is not a current synchronization failure.
+    countQuery(supabase, (q) => q.or("sheet_sync_status.eq.failed,email_status.eq.failed"))
   ]);
   return { today, consulting, followUp, enrolled, syncErrors };
 }
@@ -53,16 +58,18 @@ async function getLeads(request, response, context) {
   if (to) query = query.lte("created_at", `${to}T23:59:59.999Z`);
   if (search) query = query.or(`reference.ilike.%${search}%,parent_name.ilike.%${search}%,phone_normalized.ilike.%${search}%,student_name.ilike.%${search}%`);
   const start = (page - 1) * PAGE_SIZE;
-  const { data, error, count } = await query.order("created_at", { ascending: false }).range(start, start + PAGE_SIZE - 1);
-  if (error) throw error;
-  const [{ data: admins }, dashboard] = await Promise.all([
+  const leadQuery = query.order("created_at", { ascending: false }).range(start, start + PAGE_SIZE - 1);
+  const [{ data, error, count }, { data: admins }, dashboard] = await Promise.all([
+    leadQuery,
     context.supabase.from("admin_users").select("email,display_name").eq("active", true).order("display_name"),
     summary(context.supabase)
   ]);
+  if (error) throw error;
   return sendJson(response, 200, { ok: true, leads: data, count: count || 0, page, pageSize: PAGE_SIZE, summary: dashboard, admins: admins || [] });
 }
 
 async function patchLead(request, response, context) {
+  const { runSheetSync } = integrations();
   const body = parseBody(request);
   if (!body.id) return sendJson(response, 400, { ok: false, error: "missing_id" });
   const patch = adminPatchSchema.parse(body.patch || {});
@@ -78,6 +85,7 @@ async function patchLead(request, response, context) {
 }
 
 async function deleteLead(request, response, context) {
+  const { runSheetSync } = integrations();
   const body = parseBody(request);
   if (!body.id) return sendJson(response, 400, { ok: false, error: "missing_id" });
   const { data: lead, error } = await context.supabase.from("leads").update({ deleted_at: new Date().toISOString(), updated_by: context.user.id }).eq("id", body.id).select("*").single();
@@ -88,6 +96,7 @@ async function deleteLead(request, response, context) {
 }
 
 async function postAction(request, response, context) {
+  const { runSheetSync, runEmailSend } = integrations();
   const body = parseBody(request);
   if (body.action === "retry-unsent-emails") {
     const { data: leads, error } = await context.supabase
@@ -110,7 +119,7 @@ async function postAction(request, response, context) {
       });
       await Promise.all(workers);
     };
-    waitUntil(queue());
+    require("@vercel/functions").waitUntil(queue());
     return sendJson(response, 202, { ok: true, scheduled: (leads || []).length });
   }
   if (!body.id || !["restore", "retry-sheet", "retry-email"].includes(body.action)) return sendJson(response, 400, { ok: false, error: "invalid_action" });

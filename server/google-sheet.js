@@ -6,6 +6,7 @@ const STATUS_LABELS = {
   consulting: "Đang tư vấn",
   qualified: "Tiềm năng",
   enrolled: "Đã đăng ký",
+  paid: "Đã đóng học phí",
   not_interested: "Không quan tâm",
   unreachable: "Không liên lạc được"
 };
