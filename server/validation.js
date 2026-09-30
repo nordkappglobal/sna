@@ -35,6 +35,8 @@ const adminPatchSchema = z.object({
 function normalizePhone(value) {
   let digits = String(value || "").replace(/\D/g, "");
   if (digits.startsWith("84") && digits.length >= 11) digits = `0${digits.slice(2)}`;
+  // Parents sometimes omit the domestic leading zero (for example 779077508).
+  if (/^[35789]\d{8}$/.test(digits)) digits = `0${digits}`;
   if (!/^0\d{9,10}$/.test(digits)) throw new Error("invalid_phone");
   return digits;
 }
