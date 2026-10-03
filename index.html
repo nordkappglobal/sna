@@ -31,8 +31,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@700;800;900&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/styles.css?v=20260831g">
-  <script type="module" src="/app.js?v=20260831g"></script>
+  <link rel="stylesheet" href="/styles.css?v=20261003a">
+  <script type="module" src="/app.js?v=20261003a"></script>
 </head>
 <body>
   <a class="skip-link" href="#main" data-i18n="skip">Bỏ qua đến nội dung chính</a>
@@ -275,8 +275,9 @@
               <div class="field"><label for="parent-name" data-i18n="labelParent">Họ và tên phụ huynh *</label><input id="parent-name" name="parentName" autocomplete="name" required data-i18n-placeholder="placeholderParent" placeholder="Nguyễn Văn A"></div>
               <div class="field"><label for="phone" data-i18n="labelPhone">Số điện thoại/Zalo *</label><input id="phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" required pattern="[0-9 +.-]{9,15}" placeholder="0900000000"></div>
               <div class="field"><label for="student-name" data-i18n="labelStudent">Họ và tên học sinh *</label><input id="student-name" name="studentName" required data-i18n-placeholder="placeholderStudent" placeholder="Nguyễn Bé B"></div>
-              <div class="field"><label for="grade" data-i18n="labelGrade">Lớp đang học *</label><select id="grade" name="grade" required><option value="" data-i18n="selectGrade">Chọn lớp</option><option>Lớp 1</option><option>Lớp 2</option><option>Lớp 3</option><option>Lớp 4</option><option>Lớp 5</option><option>Lớp 6</option><option>Lớp 7</option><option>Lớp 8</option><option>Lớp 9</option><option>Lớp 10</option><option>Lớp 11</option><option>Lớp 12</option></select></div>
+              <div class="field"><label for="grade" data-i18n="labelGrade">Lớp con đang học *</label><input id="grade" name="grade" required minlength="2" maxlength="30" data-i18n-placeholder="placeholderGrade" placeholder="Ví dụ: Lớp 3.2, Lớp 5S1"></div>
             </div>
+            <fieldset><legend data-i18n="labelProgram">Chương trình con đang học: *</legend><div class="check-grid program-options"><label><input type="radio" name="program" value="SBS" required><span data-i18n="programSbs">Khối SBS</span></label><label><input type="radio" name="program" value="SMINT" required><span data-i18n="programSmint">Khối SMINT</span></label></div></fieldset>
             <fieldset><legend data-i18n="labelActivities">Môn học quan tâm * <small>(có thể chọn nhiều)</small></legend><div class="check-grid" id="activity-options"></div><p class="field-error" id="course-error" data-i18n="errorCourse">Vui lòng chọn ít nhất một môn.</p></fieldset>
             <fieldset><legend data-i18n="labelTime">Lịch trải nghiệm</legend><div class="fixed-schedule"><span aria-hidden="true">✓</span><div><strong data-i18n="timeWeekday">Thứ Ba và Thứ Sáu · 15:30–16:30</strong><small data-i18n="trialPeriodShort">Từ 02/10 đến 16/10/2026</small></div></div><input type="hidden" name="time" value="weekday"></fieldset>
             <div class="honeypot" aria-hidden="true"><label for="company">Company</label><input id="company" name="company" tabindex="-1" autocomplete="one-time-code" data-lpignore="true" data-1p-ignore="true"></div>

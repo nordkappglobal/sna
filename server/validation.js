@@ -4,7 +4,7 @@ const { z } = require("zod");
 const ACTIVITIES = ["football", "basketball", "dance", "vovinam", "taekwondo", "karate", "drums", "zither"];
 const TIME_SLOTS = ["weekday", "weekend", "flexible"];
 const STATUSES = ["new", "contacted", "consulting", "qualified", "enrolled", "paid", "not_interested", "unreachable"];
-const GRADES = Array.from({ length: 12 }, (_, index) => `Lớp ${index + 1}`);
+const PROGRAMS = ["SBS", "SMINT"];
 
 const cleanText = (max) => z.string().trim().min(2).max(max);
 
@@ -12,7 +12,8 @@ const leadInputSchema = z.object({
   parentName: cleanText(120),
   phone: z.string().trim().min(9).max(18),
   studentName: cleanText(120),
-  grade: z.enum(GRADES),
+  program: z.enum(PROGRAMS),
+  grade: cleanText(30),
   activities: z.array(z.enum(ACTIVITIES)).min(1).max(ACTIVITIES.length),
   timeSlots: z.array(z.enum(TIME_SLOTS)).min(1).max(TIME_SLOTS.length),
   consent: z.literal(true),
@@ -23,7 +24,7 @@ const adminPatchSchema = z.object({
   parent_name: cleanText(120).optional(),
   phone_raw: z.string().trim().min(9).max(18).optional(),
   student_name: cleanText(120).optional(),
-  grade: z.enum(GRADES).optional(),
+  grade: cleanText(60).optional(),
   activities: z.array(z.enum(ACTIVITIES)).min(1).max(ACTIVITIES.length).optional(),
   time_slots: z.array(z.enum(TIME_SLOTS)).min(1).max(TIME_SLOTS.length).optional(),
   status: z.enum(STATUSES).optional(),
@@ -48,7 +49,9 @@ function normalizeLeadInput(input) {
     phone_raw: parsed.phone,
     phone_normalized: normalizePhone(parsed.phone),
     student_name: parsed.studentName.replace(/\s+/g, " "),
-    grade: parsed.grade,
+    // Store the program and class together so existing Admin, Sheet and email
+    // integrations receive the new information without a database migration.
+    grade: `Khối ${parsed.program} · ${parsed.grade.replace(/\s+/g, " ")}`,
     activities: [...new Set(parsed.activities)].sort(),
     time_slots: [...new Set(parsed.timeSlots)].sort(),
     locale: parsed.locale
@@ -74,7 +77,7 @@ module.exports = {
   ACTIVITIES,
   TIME_SLOTS,
   STATUSES,
-  GRADES,
+  PROGRAMS,
   leadInputSchema,
   adminPatchSchema,
   normalizePhone,

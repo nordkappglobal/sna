@@ -30,7 +30,7 @@ function emailContent(lead) {
     ["Phụ huynh", lead.parent_name],
     ["Điện thoại", lead.phone_raw],
     ["Học sinh", lead.student_name],
-    ["Lớp", lead.grade],
+    ["Chương trình / Lớp", lead.grade],
     ["Bộ môn", (lead.activities || []).join(", ")],
     ["Khung giờ", (lead.time_slots || []).join(", ")]
   ];
